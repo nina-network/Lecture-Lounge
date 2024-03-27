@@ -13,3 +13,7 @@ def login_page():
 @app.route('/profile')
 def profile_page():
     return render_template('profile.html')
+
+@app.rout('/search')
+def search_page():
+    return render_template('search.html')
