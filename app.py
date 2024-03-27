@@ -18,7 +18,6 @@ def profile_page():
 def room():
 	return render_template('room.html', room = room)
 
-
 @app.get('/createroom')
 def create_room():
     return render_template('create_room.html')
