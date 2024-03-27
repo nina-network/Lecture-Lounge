@@ -14,6 +14,6 @@ def login_page():
 def profile_page():
     return render_template('profile.html')
 
-@app.rout('/search')
+@app.route('/search')
 def search_page():
     return render_template('search.html')
