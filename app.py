@@ -1,4 +1,4 @@
-from flask import Flask, render_template, urlfor, request, redirect
+from flask import Flask, render_template, url_for, request, redirect
 
 app = Flask(__name__)
 
@@ -17,6 +17,11 @@ def profile_page():
 @app.get('/room')
 def room():
 	return render_template('room.html', room = room)
+
+
+@app.get('/createroom')
+def create_room():
+    return render_template('create_room.html')
 
 @app.route('/search')
 def search_page():
