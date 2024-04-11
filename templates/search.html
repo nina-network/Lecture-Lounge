@@ -1,0 +1,33 @@
+{% extends '_layout.html' %}
+
+{% block body %}
+<style>
+        .search-container {
+            display: flex;
+            align-items: center;
+            margin-top: 40px;
+        }
+        .search-input {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+
+        .center {
+            margin-top: 30px;
+            text-align: center;
+            background-color: lightgrey;
+            padding: 10px;
+        }
+</style>
+
+<body>
+    <div class="container search-container">
+        <input class="form-control search-input" type="text" placeholder="Search...">
+        <button class="btn btn-primary" type="button">Search</button>
+    </div>
+    <div class="center">
+        <h1> This is where the search results will be created and displayed</h1>
+    </div>
+    
+</body>
+{% endblock %}

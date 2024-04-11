@@ -1,0 +1,81 @@
+{% extends '_layout.html' %}
+
+{% block body %}
+<style>
+  .profile-pic{
+      width: 150px;
+      height: 150px; 
+      border-radius: 50%; 
+      overflow: hidden; 
+    }  
+    
+  .username-big{
+      margin-top: 10px;
+      font-size: 40px;
+  }
+  .username-small{
+      font-size: 20px;
+  }
+
+  #profile-container{
+    padding: 20px;
+  }
+
+  #prof-nav{
+      margin-left: 20px;
+      margin-right: 20px;
+  }
+
+  #post-prof{
+    width: 100px;
+    height: 100px; 
+    border-radius: 50%; 
+    overflow: hidden; 
+  }  
+
+  #no-post-msg{
+    font-size: 25px;
+  }
+</style>
+
+<div class="container mt-5 shadow navbar-light bg-white" id="profile-container">
+    <div class="row justify-content-start align-items-center">
+        <div class="col-auto profile-pic-container">
+          <div class="profile-pic bg-secondary">
+            <!-- placeholder for picture, will implement later -->
+          </div>
+        </div>
+        <div class="col username-big">
+          Username123
+          <div class="username-small">
+            u/username123
+          </div>
+        </div>
+      </div>
+    <div class="row profile-nav">
+        <div class="navbar">
+            <nav class="navbar">
+                <a id="prof-nav" class="navbar-brand">Posts</a>
+                <a id="prof-nav" class="navbar-brand">Liked</a>
+                <a id="prof-nav" class="navbar-brand">Disliked</a>
+                <a id="prof-nav" class="navbar-brand">Saved</a>
+            </nav>
+        </div>
+    </div>
+    <div class="create-post">
+        <button class="btn btn-light btn-outline-secondary">+Create Post</button>
+    </div>
+</div>
+<div class="container" id="profile-container">
+  <div class="row justify-content-center align-items-center">
+    <div class="col-auto profile-pic-container">
+      <div id="post-prof" class="bg-secondary">
+        <!-- placeholder for picture, will implement later-->
+      </div>
+    </div>
+    <div id="no-post-msg" class="row justify-content-center">
+      Username123 hasn't posted yet...
+    </div>
+  </div>
+</div>
+{% endblock %}
