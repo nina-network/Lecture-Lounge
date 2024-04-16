@@ -10,12 +10,13 @@
         }
     </style>
     <br>
+    {% if rooms | length > 0 %}
     <nav id="board" class="shadow navbar navbar-light bg-white mx-5">
         <div class="container">
             <a class="navbar-brand" href="/">
-                <h1 class="display-3">
-                    Room
-                </h1>
+                {% for room_id, room_name in rooms.items() %}
+                    <h1>{{ room_name }}</h1>
+                {% endfor %}
             </a>
             <form>
                 <button type="button" class="btn btn-outline-secondary">Create Post</button>
@@ -36,15 +37,9 @@
             </a>
         </div>
         <div class="container">
-            <p class="lead">
-                Lorem ipsum dolor sit amet
-            </p>
-        </div>
-            <!-- how to make the paragraph dynamic -->
-        <div class="container">
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua?
-            </p>
+            {% for room_id, room_text in room_texts.items() %}
+                <p>{{ room_text }}</p>
+            {% endfor %}
         </div>
         <div class="container-right">
             <!-- add icons instead of text to button -->
@@ -60,5 +55,7 @@
             </button>
         </div>
     </nav>
-
+    {% else %}
+    <h2>No rooms</h2>
+    {% endif %}
 {% endblock %}
