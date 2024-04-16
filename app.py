@@ -10,6 +10,10 @@ def index():
 def login_page():
     return render_template('login.html')
 
+@app.route('/signup', methods=['GET', 'POST'])
+def signup_page():
+    return render_template('signup.html')
+
 @app.route('/profile')
 def profile_page():
     return render_template('profile.html')
