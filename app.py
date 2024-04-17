@@ -1,5 +1,8 @@
 from flask import Flask, render_template, url_for, request, redirect, abort
 from random import randint
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 
