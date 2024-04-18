@@ -33,28 +33,28 @@ oauth.register("myApp",
 rooms = {}
 room_texts = {}
 
-@app.route('/')
+@app.get('/')
 def index():
     return render_template('index.html')
 
-@app.route('/login')
+@app.get('/login')
 def login_page():
     return render_template('login.html')
 
 # Google login
-@app.route('/google-login')
+@app.get('/google-login')
 def googleLogin():
     return oauth.myApp.authorize_redirect(redirect_uri=url_for("googleCallback", _external=True))
 
 # callback for Google login
-@app.route('/signin-google')
+@app.get('/signin-google')
 def googleCallback():
     token = oauth.myApp.authorize_access_token() # authorize and store token
     session['user'] = token # store token in session, indicating user is logged in
     return redirect(url_for('profile_page'))
 
 # logout
-@app.route('/logout')
+@app.get('/logout')
 def logout():
     session.pop('user', None) # remove token from session (log out user)
     return redirect(url_for('login_page'))
