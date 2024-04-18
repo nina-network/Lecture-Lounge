@@ -4,7 +4,7 @@ from random import randint
 from dotenv import load_dotenv
 import os
 
-load_dotenv() 
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -57,6 +57,7 @@ def googleCallback():
 @app.route('/logout')
 def logout():
     session.pop('user', None) # remove token from session (log out user)
+
     return redirect(url_for('login_page'))
 
 @app.route('/signup', methods=['GET', 'POST'])
