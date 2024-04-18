@@ -57,7 +57,6 @@ def googleCallback():
 @app.route('/logout')
 def logout():
     session.pop('user', None) # remove token from session (log out user)
-
     return redirect(url_for('login_page'))
 
 @app.route('/signup', methods=['GET', 'POST'])
