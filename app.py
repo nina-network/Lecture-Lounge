@@ -63,7 +63,7 @@ def logout():
 def signup_page():
     return render_template('signup.html')
 
-@app.route('/profile')
+@app.get('/profile')
 def profile_page():
     return render_template('profile.html')
 
