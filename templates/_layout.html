@@ -57,7 +57,6 @@
                 </li>
             </ul>
         </div>
-
         <input type="checkbox" id="darkmode-toggle" class="input-index"/>
         <label for="darkmode-toggle" class="label-index">
             <div class="sun">
@@ -67,6 +66,7 @@
                 <i class="material-icons theme-toggle" id="darkModeToggle" style="cursor: pointer;">dark_mode</i>
             </div>
 		</label>
+        {% if not session['user'] %}
         <form class="form-inline">
             <div class="container">
                 <a class="btn btn-outline-secondary" href="/signup">Sign Up</a>
@@ -76,7 +76,14 @@
             <div class="container">
                 <a class="btn btn-outline-secondary" href="/login">Login</a>
             </div>
-        </form>        
+        </form>
+        {% else %}
+        <form class="form-inline">
+            <div class="container">
+                <a class="btn btn-outline-secondary" href="/logout">Logout</a>
+            </div>
+        </form>
+        {% endif %}      
     </nav>
 </header>
     {% block body %}{% endblock %}
