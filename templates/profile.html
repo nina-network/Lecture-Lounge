@@ -46,7 +46,11 @@
           </div>
         </div>
         <div class="col username-big">
-          Username123
+          {% if session['user'] %}
+          Hello, {{session['user']['userinfo']['name']}}!
+          {% else %}
+          Hello, user!
+          {% endif %}
           <div class="username-small">
             u/username123
           </div>
