@@ -1,14 +1,16 @@
 CREATE TABLE IF NOT EXISTS users (
     user_id     SERIAL PRIMARY KEY,
-    firstName   VARCHAR(255) NOT NULL,
-    lastName    VARCHAR(255) NOT NULL,
-    email       VARCHAR(255) NOT NULL,
-    username    VARCHAR(255) NOT NULL,
-    password    VARCHAR(255) NOT NULL
+    firstName   VARCHAR(255),
+    lastName    VARCHAR(255),
+    email       VARCHAR(255) NOT NULL UNIQUE,
+    username    VARCHAR(255) NOT NULL UNIQUE,
+    password    VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS courses (
     course_id   SERIAL PRIMARY KEY,
+    course_subject VARCHAR(255) NOT NULL,
+    course_number INT NOT NULL,
     course_name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL
 );

@@ -2,22 +2,17 @@
 
 {% block body %}
 
+{% for room in rooms %}
 <div class="shadow m-5 p-5">
-    <h3>Title Goes Here</h3>
-    <ul class="list-unstyled">
-        <li class="border-1 p-2">Question 1</li>
-        <li class="border-1 p-2">Question 2</li>
-        <li class="border-1 p-2">Question 3</li>
-    </ul>
-</div>
+    <h3> {{ room }} </h3>
+    <ul>
+    {% for post in rooms[room] %}
+    <li class="border-1 p-2">{{ post['title'] }}</li> <!-- make into a hyperlink to link to the post -->
 
-<div class="shadow m-5 p-5">
-    <h3>Title Goes Here</h3>
-    <ul class="list-unstyled">
-        <li class="border-1 p-2">Question 1</li>
-        <li class="border-1 p-2">Question 2</li>
-        <li class="border-1 p-2">Question 3</li>
+    {% endfor %}
     </ul>
+
 </div>
+{% endfor %}
 
 {% endblock %}

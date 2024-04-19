@@ -1,5 +1,6 @@
 from flask import Flask, render_template, session, url_for, request, redirect, abort
 from authlib.integrations.flask_client import OAuth
+from repositories import course_repository, post_repository
 from random import randint
 from dotenv import load_dotenv
 import os
@@ -35,7 +36,21 @@ room_texts = {}
 
 @app.get('/')
 def index():
-    return render_template('index.html')
+    courses = course_repository.get_all_courses();
+    posts = post_repository.get_all_posts();
+
+    room_posts = {}
+
+    # sort posts by course
+    for course in courses:
+        counter = 0
+        room_posts[course['course_name']] = []
+        for post in posts:
+            if course['course_id'] == post['course_id'] and counter < 3:
+                room_posts[course['course_name']].append(post)
+                counter += 1
+    
+    return render_template('index.html', rooms=room_posts)
 
 @app.get('/login')
 def login_page():
