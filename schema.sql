@@ -22,10 +22,6 @@ CREATE TABLE IF NOT EXISTS courses_prerequisites (
     FOREIGN KEY (prerequisite_id) REFERENCES courses(course_id)
 );
 
--- pre-reqs table and map the courses to that table?
--- since pre-reqs are courses too, how would that work?
--- courses to pre-reqs would be a 1-M relationship
-
 CREATE TABLE IF NOT EXISTS posts (
     post_id     SERIAL PRIMARY KEY,
     title       VARCHAR(255) NOT NULL,
