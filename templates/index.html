@@ -2,16 +2,14 @@
 
 {% block body %}
 
-{% for room in rooms %}
+{% for course in courses %}
 <div class="shadow m-5 p-5">
-    <h3> {{ room }} </h3>
+    <a href="/room/{{ course }}"><h3> {{ courses[course] }} </h3></a>
     <ul>
-    {% for post in rooms[room] %}
-    <li class="border-1 p-2">{{ post['title'] }}</li> <!-- make into a hyperlink to link to the post -->
-
+    {% for post in posts[course] %}
+        <li class="border-1 p-2">{{ post['title'] }}</li> <!-- make into a hyperlink to link to the post -->
     {% endfor %}
     </ul>
-
 </div>
 {% endfor %}
 
