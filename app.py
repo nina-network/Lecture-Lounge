@@ -1,13 +1,18 @@
+import os
 from flask import Flask, render_template, session, url_for, request, redirect, abort
 from authlib.integrations.flask_client import OAuth
 from repositories import course_repository, post_repository
 from random import randint
 from dotenv import load_dotenv
-import os
+from flask_bcrypt import Bcrypt
+
+from repositories import user_repository
 
 load_dotenv()
 
 app = Flask(__name__)
+
+bcrypt = Bcrypt(app)
 
 # Configuration with OAuth2 client ID and secret
 appConf = {
@@ -74,9 +79,32 @@ def logout():
     session.pop('user', None) # remove token from session (log out user)
     return redirect(url_for('login_page'))
 
-@app.route('/signup', methods=['GET', 'POST'])
+@app.route('/signup', methods=['GET'])
 def signup_page():
     return render_template('signup.html')
+
+@app.route('/signup', methods=['POST'])
+def signup():
+    first_name = request.form.get('first_name')
+    last_name = request.form.get('last_name')
+    email = request.form.get('email')
+    username = request.form.get('username')
+    password = request.form.get('password')
+    confirm_password = request.form.get('confirm_password')
+
+    if not all([first_name, last_name, email, user_repository, password, confirm_password]):
+        error = "All fields are required."
+        return render_template('signup.html', error=error)
+    
+    if user_repository.get_user_by_email(email):
+        error = "Email is already registered."
+        return render_template('signup.html', error=error)
+
+    hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+
+    user_repository.create_user(first_name, last_name, email, username, hashed_password)
+
+    return redirect(url_for('login_page'))
 
 @app.get('/profile')
 def profile_page():
