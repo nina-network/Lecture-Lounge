@@ -1,13 +1,18 @@
+import os
 from flask import Flask, render_template, session, url_for, request, redirect, abort
 from authlib.integrations.flask_client import OAuth
 from repositories import course_repository, post_repository
 from random import randint
 from dotenv import load_dotenv
-import os
+from flask_bcrypt import Bcrypt
+
+from repositories import user_repository
 
 load_dotenv()
 
 app = Flask(__name__)
+
+bcrypt = Bcrypt(app)
 
 # Configuration with OAuth2 client ID and secret
 appConf = {
@@ -55,6 +60,20 @@ def index():
 @app.get('/login')
 def login_page():
     return render_template('login.html')
+
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    if not username or not password:
+        abort(400)
+    user = user_repository.get_user_by_username(username)
+    if user is None:
+        abort(401)
+    if not bcrypt.check_password_hash(user['hashed_password'], password):
+        abort(401)
+    session['user'] = user
+    return redirect(url_for('index'))
 
 # Google login
 @app.get('/google-login')
