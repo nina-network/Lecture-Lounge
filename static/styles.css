@@ -219,7 +219,24 @@ body.theme-dark {
     font-size: 25px;
   }
 
+  #board{
+    padding: 50px;
+}
+    #id {
+    padding-top: ($spacer * 3) !important;
+}
+
   a {
     text-decoration: none;
     color: black;
   }
+
+    a:hover {
+        text-decoration: none;
+        color: black;
+        cursor: pointer;
+    }
+
+    .container div {
+        margin-bottom: 20px; /* Adjust the margin as needed */
+    }

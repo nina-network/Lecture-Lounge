@@ -41,6 +41,9 @@ def index():
     courses = course_repository.get_all_courses();
     posts = post_repository.get_all_posts();
 
+    if not courses or not posts:
+        abort(400)
+
     room_posts = {}
 
     # sort posts by course
@@ -90,9 +93,11 @@ def profile_page():
     return render_template('profile.html')
 
 @app.get('/room/<room_id>')
-def room():
-    # get_room_by_id(room_id) -- query the databse to get the specific room
-	return render_template('room.html', rooms=rooms, room_texts=room_texts)
+def room(room_id):
+    room = course_repository.get_course_by_id(room_id)
+    if not room:
+        abort(400)
+    return render_template('room.html', room=room)
 
 # name and text -- reconfigure after database is integrated
 @app.post('/room')
