@@ -36,6 +36,8 @@ room_texts = {}
 
 @app.get('/')
 def index():
+
+    # query the database for all courses and posts
     courses = course_repository.get_all_courses();
     posts = post_repository.get_all_posts();
 
@@ -44,13 +46,18 @@ def index():
     # sort posts by course
     for course in courses:
         counter = 0
-        room_posts[course['course_name']] = []
+        room_posts[course['course_id']] = []
         for post in posts:
             if course['course_id'] == post['course_id'] and counter < 3:
-                room_posts[course['course_name']].append(post)
+                room_posts[course['course_id']].append(post)
                 counter += 1
     
-    return render_template('index.html', rooms=room_posts)
+    # map course_id to course_name
+    course_names = {}
+    for course in courses:
+        course_names[course['course_id']] = course['course_name']
+
+    return render_template('index.html', posts=room_posts, courses=course_names)
 
 @app.get('/login')
 def login_page():
@@ -82,8 +89,9 @@ def signup_page():
 def profile_page():
     return render_template('profile.html')
 
-@app.get('/room')
+@app.get('/room/<room_id>')
 def room():
+    # get_room_by_id(room_id) -- query the databse to get the specific room
 	return render_template('room.html', rooms=rooms, room_texts=room_texts)
 
 # name and text -- reconfigure after database is integrated

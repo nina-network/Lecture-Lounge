@@ -218,3 +218,8 @@ body.theme-dark {
   #no-post-msg{
     font-size: 25px;
   }
+
+  a {
+    text-decoration: none;
+    color: black;
+  }
