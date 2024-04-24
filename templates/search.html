@@ -2,32 +2,84 @@
 
 {% block body %}
 <style>
-        .search-container {
-            display: flex;
-            align-items: center;
-            margin-top: 40px;
-        }
-        .search-input {
-            flex-grow: 1;
-            margin-right: 10px;
-        }
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 0;
+    }
 
-        .center {
-            margin-top: 30px;
-            text-align: center;
-            background-color: lightgrey;
-            padding: 10px;
-        }
+    .container {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .search-container {
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        padding: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .search-input {
+        flex-grow: 1;
+        margin-right: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        outline: none;
+    }
+
+    .search-input::placeholder {
+        color: #aaa;
+    }
+
+    .btn-primary {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .center {
+        text-align: center;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        padding: 20px;
+    }
+
+    .center h1 {
+        font-size: 24px;
+        margin-top: 20px;
+        color: #333;
+    }
 </style>
 
+
 <body>
-    <div class="container search-container">
-        <input class="form-control search-input" type="text" placeholder="Search...">
-        <button class="btn btn-primary" type="button">Search</button>
+    <div class="container">
+        <div class="search-container">
+            <input class="search-input" type="text" placeholder="Search...">
+            <button class="btn btn-primary" type="button">Search</button>
+        </div>
+        <div class="center">
+            <h1>This is where the search results will be displayed</h1>
+        </div>
     </div>
-    <div class="center">
-        <h1> This is where the search results will be created and displayed</h1>
-    </div>
-    
 </body>
 {% endblock %}
