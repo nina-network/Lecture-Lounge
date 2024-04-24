@@ -10,7 +10,7 @@ def does_username_exist(username: str) -> bool:
                         SELECT
                             user_id
                         FROM
-                            app_user
+                            users
                         WHERE username = %s
                         ''', [username])
             user_id = cur.fetchone()
@@ -27,7 +27,7 @@ def get_user_by_username(username: str) -> dict[str, Any] | None:
                             username,
                             password AS hashed_password
                         FROM
-                            app_user
+                            users
                         WHERE username = %s
                         ''', [username])
             user = cur.fetchone()
@@ -43,7 +43,7 @@ def get_user_by_id(user_id: int) -> dict[str, Any] | None:
                             user_id,
                             username
                         FROM
-                            app_user
+                            users
                         WHERE user_id = %s
                         ''', [user_id])
             user = cur.fetchone()
