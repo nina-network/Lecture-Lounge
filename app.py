@@ -102,14 +102,24 @@ def room(room_id):
 # name and text -- reconfigure after database is integrated
 @app.post('/room')
 def create_rooms():
-    room_name = request.form.get('room_name')
-    room_text = request.form.get('room_text')
-    if not room_name:
+    course_name = request.form.get('course_name')
+    description = request.form.get('description')
+    
+    if not course_name:
         abort(400)
-    room_id = randint(1,1000)
-    rooms[room_id] = room_name
-    room_texts[room_id] = room_text
-    return redirect('/room')
+    
+    new_course = {'course_name': course_name, 'description': description}
+    course_repository.create_course(new_course) 
+
+    room_courses = {}
+    for course in course_repository.get_all_courses():
+        if course['course_id'] not in room_courses:
+            room_courses[course['course_id']] = []
+        room_courses[course['course_id']].append(course)
+        room_courses[course['course_id']] = room_courses[course['course_id']][:3]
+    
+    return redirect(url_for('index', room_courses=room_courses))
+
 
 @app.get('/createroom')
 def create_room():
