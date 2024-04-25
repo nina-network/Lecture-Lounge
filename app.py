@@ -41,25 +41,49 @@ room_texts = {}
 
 @app.get('/')
 def index():
+
+    # query the database for all courses and posts
     courses = course_repository.get_all_courses();
     posts = post_repository.get_all_posts();
+
+    if not courses or not posts:
+        abort(400)
 
     room_posts = {}
 
     # sort posts by course
     for course in courses:
         counter = 0
-        room_posts[course['course_name']] = []
+        room_posts[course['course_id']] = []
         for post in posts:
             if course['course_id'] == post['course_id'] and counter < 3:
-                room_posts[course['course_name']].append(post)
+                room_posts[course['course_id']].append(post)
                 counter += 1
     
-    return render_template('index.html', rooms=room_posts)
+    # map course_id to course_name
+    course_names = {}
+    for course in courses:
+        course_names[course['course_id']] = course['course_name']
+
+    return render_template('index.html', posts=room_posts, courses=course_names)
 
 @app.get('/login')
 def login_page():
     return render_template('login.html')
+
+@app.route('/login', methods=['POST'])
+def login():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    if not username or not password:
+        abort(400)
+    user = user_repository.get_user_by_username(username)
+    if user is None:
+        abort(401)
+    if not bcrypt.check_password_hash(user['hashed_password'], password):
+        abort(401)
+    session['user'] = user
+    return redirect(url_for('index'))
 
 # Google login
 @app.get('/google-login')
@@ -110,21 +134,34 @@ def signup():
 def profile_page():
     return render_template('profile.html')
 
-@app.get('/room')
-def room():
-	return render_template('room.html', rooms=rooms, room_texts=room_texts)
+@app.get('/room/<room_id>')
+def room(room_id):
+    room = course_repository.get_course_by_id(room_id)
+    if not room:
+        abort(400)
+    return render_template('room.html', room=room)
 
 # name and text -- reconfigure after database is integrated
 @app.post('/room')
 def create_rooms():
-    room_name = request.form.get('room_name')
-    room_text = request.form.get('room_text')
-    if not room_name:
+    course_name = request.form.get('course_name')
+    description = request.form.get('description')
+    
+    if not course_name:
         abort(400)
-    room_id = randint(1,1000)
-    rooms[room_id] = room_name
-    room_texts[room_id] = room_text
-    return redirect('/room')
+    
+    new_course = {'course_name': course_name, 'description': description}
+    course_repository.create_course(new_course) 
+
+    room_courses = {}
+    for course in course_repository.get_all_courses():
+        if course['course_id'] not in room_courses:
+            room_courses[course['course_id']] = []
+        room_courses[course['course_id']].append(course)
+        room_courses[course['course_id']] = room_courses[course['course_id']][:3]
+    
+    return redirect(url_for('index', room_courses=room_courses))
+
 
 @app.get('/createroom')
 def create_room():

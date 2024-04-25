@@ -10,7 +10,7 @@ def does_username_exist(username: str) -> bool:
                         SELECT
                             user_id
                         FROM
-                            app_user
+                            users
                         WHERE username = %s
                         ''', [username])
             user_id = cur.fetchone()

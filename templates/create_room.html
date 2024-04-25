@@ -5,7 +5,7 @@
     <h1>Create a Room</h1>
 </div>
 
-<div class="container-fluid" style="background-color: #DCDCDC;">
+<div class="container-fluid">
     <button type="button" class="btn btn-default" onclick="toggleFormat('bold')"><strong>B</strong></button>
     <button type="button" class="btn btn-default" onclick="toggleFormat('italic')"><em>I</em></button>
     <button type="button" class="btn btn-default" onclick="toggleFormat('underline')"><u>U</u></button>
@@ -15,9 +15,9 @@
 </div>
 
 <div class="container-fluid">
-    <form action="room" method="post">
-        <input type="room_name" name="room_name" class="form-control mt-4" style="height: 50px; border: solid; border-color: #A9A9A9;" placeholder="Enter Your Room Name Here..." required>
-        <input type="room_text" name="room_text" class="form-control mt-2" style="height: 100px; border: solid; border-color: #A9A9A9; padding-bottom: 70px;" placeholder="Enter Your Text Here (optional)">
+    <form action="/room" method="post">
+        <input type="course_name" name="course_name" class="form-control mt-4" style="height: 50px; border: solid; border-color: #A9A9A9;" placeholder="Enter Your Room Name Here..." required>
+        <input type="description" name="description" class="form-control mt-2" style="height: 100px; border: solid; border-color: #A9A9A9; padding-bottom: 70px;" placeholder="Enter Your Text Here (optional)">
         <br>
         <button type="submit">Create</button>
     </form>
