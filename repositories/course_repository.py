@@ -34,3 +34,13 @@ def get_course_by_id(course_id):
                                 course_id = %s;
                            ''', (course_id,))
             return cursor.fetchone()
+
+def create_course(course):
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor() as cursor:
+            cursor.execute('''
+                INSERT INTO courses (course_subject, course_number, course_name, description)
+                VALUES (%s, %s, %s, %s)
+            ''', (course.get('course_subject', 'Default Subject'), course.get('course_number', 0), course['course_name'], course['description']))
+            conn.commit()
