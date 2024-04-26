@@ -1,22 +1,31 @@
 {% extends '_layout.html' %}
-
 {% block body %}
 
 <div class="container mt-5 shadow navbar-light" id="profile-container">
     <div class="row justify-content-start align-items-center">
         <div class="col-auto profile-pic-container">
-          <div class="profile-pic bg-secondary">
-            <!-- placeholder for picture, will implement later -->
+          <form action="/profile-pic" method="get">
+          <div class="profile-pic">
+            {% if profile_pic %}
+            <button type="submit" class="circle border-0"><img src="{{ profile_pic }}" alt="image"></button>
+            {% else %}
+            <button type="submit" class="circle border-0"><img src="{{ url_for('static', filename='images/default_pic.jpg') }}" alt="image"></button>
+            {% endif %}
           </div>
+          </form>
         </div>
         <div class="col username-big">
-          {% if session['user'] %}
-          Hello, {{session['user']['userinfo']['name']}}!
+          {% if session.get('user').get('userinfo') %}
+          Hello, {{ session['user']['userinfo']['name'] }}!
           {% else %}
-          Hello, user!
+          Hello, {{ session['user']['username'] }}!
           {% endif %}
           <div class="username-small">
-            u/username123
+          {% if session.get('user').get('userinfo') %}
+          {{ session['user']['userinfo']['name'] }}!
+          {% else %}
+          {{ session['user']['username'] }}
+          {% endif %}
           </div>
         </div>
       </div>
@@ -30,19 +39,26 @@
             </nav>
         </div>
     </div>
-    <div class="create-post">
-        <button class="btn btn-outline-secondary">+Create Post</button>
-    </div>
 </div>
 <div class="container" id="profile-container">
   <div class="row justify-content-center align-items-center">
     <div class="col-auto profile-pic-container">
-      <div id="post-prof" class="bg-secondary">
-        <!-- placeholder for picture, will implement later-->
+      <div id="post-prof">
+          <div class="post-prof">
+            {% if profile_pic %}
+            <img src="{{ profile_pic}}" alt="image" class="circle border-0">
+            {% else %}
+            <img src="{{url_for('static', filename='images/default_pic.jpg')}}" alt="image" class="circle border-0">
+            {% endif %}
+          </div>
       </div>
     </div>
     <div id="no-post-msg" class="row justify-content-center">
-      Username123 hasn't posted yet...
+      {% if session.get('user').get('userinfo') %}
+      {{ session['user']['userinfo']['name'] }} hasn't posted yet...
+      {% else %}
+      {{ session['user']['username']}} hasn't posted yet...
+      {% endif %}
     </div>
   </div>
 </div>

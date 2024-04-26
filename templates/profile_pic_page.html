@@ -1,0 +1,23 @@
+{% extends '_layout.html' %}
+{% block body %}
+
+<div class="container text-center">
+    <h1 class="mt-2">Profile Picture Selection!</h1>
+    <div class="row">
+        {% for pic in pics %}
+            <div class="col-md-2 d-flex justify-content-center">
+                <!-- <div class="profile-pic"> -->
+                    <div class="pic-select">
+                      <form action="/update-pic" method="post">   
+                        <input type="hidden" name="profile_pic" id="profile_pic" value="{{ url_for('static', filename='images/' + pic) }}">
+                        <button type="submit" class="btn"> 
+                            <img src="{{ url_for('static', filename='images/' + pic) }}" alt="profile pic">
+                        </button> 
+                      </form>  
+                    </div>               
+                <!-- </div> -->
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

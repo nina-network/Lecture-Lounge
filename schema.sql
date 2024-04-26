@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS users (
     email       VARCHAR(255) NOT NULL UNIQUE,
     username    VARCHAR(255) NOT NULL UNIQUE,
     user_role   role NOT NULL,
+    user_pic    VARCHAR(255),
     password    VARCHAR(255)
 );
 

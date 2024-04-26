@@ -184,40 +184,96 @@ body.theme-dark {
     font-size: 15px; 
 }
 
-  .profile-pic{
-      width: 150px;
-      height: 150px; 
-      border-radius: 50%; 
-      overflow: hidden; 
-    }  
+.profile-pic{
+  width: 130px;
+  height: 130px; 
+  border-radius: 50%; 
+  overflow: hidden; 
+}  
     
-  .username-big{
-      margin-top: 10px;
-      font-size: 40px;
-  }
-  .username-small{
-      font-size: 20px;
-  }
+.username-big{
+    margin-top: 10px;
+    font-size: 40px;
+}
 
-  #profile-container{
+.username-small{
+    font-size: 20px;
+}
+
+#profile-container{
     padding: 20px;
-  }
+} 
 
-  #prof-nav{
-      margin-left: 20px;
-      margin-right: 20px;
-  }
+#prof-nav{
+    margin-left: 20px;
+    margin-right: 20px;
+}
 
-  #post-prof{
+#post-prof{
+  width: 100px;
+  height: 100px; 
+  border-radius: 50%;
+  overflow: hidden; 
+}  
+
+#post-prof img{
+    height: 100px;
     width: 100px;
-    height: 100px; 
-    border-radius: 50%; 
-    overflow: hidden; 
-  }  
+    overflow: hidden;
+}
 
-  #no-post-msg{
+#no-post-msg{
     font-size: 25px;
-  }
+}
+.profile-pic .circle img{
+    height: 100%;
+    width: 100%;
+    -webkit-filter: brightness(100%);
+    object-fit: cover;
+    border-radius: 45%;
+    border: white;
+}
+
+.profile-pic img:hover{
+    -webkit-filter: brightness(70%);
+    -webkit-transition: all 0.1s ease;
+    cursor: pointer;
+}
+
+.post-prof img{
+    height: 100%;
+    width: 100%;
+    border: black solid 2px;
+}
+
+.profile-pic .circle{
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    overflow: hidden;
+    -webkit-filter: brightness(100%);
+}
+
+.profile-pic form button:hover{
+    -webkit-filter: brightness(70%);
+}
+
+.pic-select img{
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    -webkit-filter: brightness(100%);
+}
+
+.profile-select img:hover{
+    -webkit-filter: brightness(70%);
+    -webkit-transition: all 0.1s ease;
+    cursor: pointer;
+}
+
+.profile-select button:hover{
+    -webkit-filter: brightness(70%);
+}
 
   #board{
     padding: 50px;
