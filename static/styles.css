@@ -30,10 +30,10 @@ body {
     --text-color: #333333;
     
     --primary-color: #009578;
-    --font-family: 'Quicksand', sans-serif;
+    /* --font-family: 'Quicksand', sans-serif; */
 
     color: var(--text-color);
-    font-family: var(--font-family);
+    /* font-family: var(--font-family); */
     background: var(--background-color);
 }
 
