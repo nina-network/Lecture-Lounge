@@ -83,3 +83,34 @@ def get_user_by_id(user_id: int) -> dict[str, Any] | None:
                         ''', [user_id])
             user = cur.fetchone()
             return user
+        
+def set_profile_picture(user_id: int, pic_url: str):
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor(row_factory=dict_row) as cur:
+            cur.execute('''
+                        UPDATE 
+                            users
+                        SET 
+                            user_pic = %s
+                        WHERE 
+                            user_id = %s
+                        ''', [pic_url, user_id])
+            
+def get_profile_picture(user_id):
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor(row_factory=dict_row) as cur:
+            cur.execute('''
+                        SELECT
+                            user_pic
+                        FROM
+                            users
+                        WHERE
+                            user_id = %s
+
+                        ''', [user_id])
+            row = cur.fetchone()
+        print("row retrieved:", row)
+        return row
+            

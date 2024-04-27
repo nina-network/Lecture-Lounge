@@ -132,7 +132,45 @@ def signup():
 
 @app.get('/profile')
 def profile_page():
+    if 'user' not in session:
+        return redirect(url_for('login_page'))
+    
+    user_id = session['user'].get('user_id')
+    profile_pic = user_repository.get_profile_picture(user_id)
+
+    if profile_pic:
+        print('if statement being passed')
+        profile_pic = profile_pic['user_pic']
+        print('profile pic data being passed',profile_pic)
+        return render_template('profile.html', profile_pic=profile_pic)
+    
+    print('if statement not being passed')
     return render_template('profile.html')
+
+pics = ['default_pic.jpg', 'prof_img1.jpg', 'prof_img2.jpg'
+            , 'prof_img3.jpg', 'prof_img4.jpg', 'prof_img5.jpg'
+            , 'prof_img6.jpg', 'prof_img7.jpg', 'prof_img8.jpg'
+            , 'prof_img9.jpg', 'prof_img10.jpg', 'prof_img11.jpg']
+
+@app.get('/profile-pic')
+def profile_pic_page():
+    if 'user' not in session:
+        return redirect(url_for('login_page'))
+
+    return render_template('profile_pic_page.html', pics=pics)
+
+@app.post('/update-pic')
+def set_profile_pic():
+    if 'user' not in session:
+        abort(400)
+    profile_pic = request.form.get('profile_pic')
+    if not profile_pic:
+        abort(400)
+    session['user']['profile_pic'] = profile_pic
+    user_id = session['user'].get('user_id')
+    user_repository.set_profile_picture(user_id, profile_pic)
+
+    return render_template('profile.html', profile_pic=profile_pic)
 
 @app.get('/room/<room_id>')
 def room(room_id):
