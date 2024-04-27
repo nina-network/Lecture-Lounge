@@ -1,4 +1,3 @@
-
 CREATE TYPE role AS ENUM ('student', 'TA', 'admin');
 
 CREATE TABLE IF NOT EXISTS users (

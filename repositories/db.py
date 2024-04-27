@@ -1,5 +1,5 @@
 from psycopg_pool import ConnectionPool
-import os
+from config import get_database_url
 
 pool = None
 
@@ -7,6 +7,6 @@ def get_pool():
     global pool
     if pool is None:
         pool = ConnectionPool(
-            conninfo=os.getenv('DATABASE_URL','')
+            conninfo=get_database_url()
         )
     return pool
