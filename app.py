@@ -34,7 +34,7 @@ oauth.register("myApp",
                 client_secret=appConf["OAUTH2_CLIENT_SECRET"],
                 server_metadata_url=appConf["OAUTH2_META_URL"],
                 client_kwargs={"scope": "openid profile email"}
-               )
+                )
 
 rooms = {}
 room_texts = {}
