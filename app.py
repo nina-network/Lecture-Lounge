@@ -142,7 +142,6 @@ def profile_page():
         profile_pic = profile_pic['user_pic']
         return render_template('profile.html', profile_pic=profile_pic)
     
-    print('if statement not being passed')
     return render_template('profile.html')
 
 pics = ['default_pic.jpg', 'prof_img1.jpg', 'prof_img2.jpg'
