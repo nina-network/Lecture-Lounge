@@ -8,34 +8,79 @@
         #id{
             padding-top: ($spacer * 3) !important;
         }
+        
+        #post-box{
+            display:none;
+        }
     </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const createPostBtn = document.getElementById("create-post");
+            const postBox = document.getElementById("post-box");
+
+            let boxVisible = false;
+       
+            createPostBtn.addEventListener("click", function () {
+                
+                if (!boxVisible) {
+                    postBox.style.display = "block";
+                    boxVisible = true;
+                } else {
+                    postBox.style.display = "none";
+                    boxVisible = false;
+                }
+            });
+        });
+    </script>
     <br>
-    <nav id="board" class="shadow navbar navbar-light bg-white mx-5">
+    <nav id="board" class="shadow navbar navbar-light mx-5">
         <div class="container">
             <div>
                 <h1>{{ room['course_name'] }}</h1>
                 <p>{{ room['description'] }}</p>
             </div>
             <form>
-                <button type="button" class="btn btn-outline-secondary">Create Post</button>
+                <button type="button" id="create-post" class="btn btn-outline-secondary">Create Post</button>
                 <button type="button" class="btn btn-outline-secondary">Contact TA</button>
                 <button type="button" class="btn btn-secondary">Join</button>
             </form>
         </div>
     </nav>
+    <div id="post-box" class="container post-box border border-3 p-2 mt-3">
+        <form action="/create-post" method="post">
+            <div class="mb-3 mt-3">
+                <label for="post_title" class="form-label">Post Title</label>
+                <input type="text" class="form-control" id="post_title" name="post_title" required>
+            </div>
+            <div class="mb-3">
+                <label for="post_content" class="form-label">Post Content</label>
+                <textarea class="form-control" id="post_content" name="post_content" rows="4" required></textarea>
+            </div>
+            <input type="hidden" name="user_id" value="{{session['user']['user_id']}}">
+            <input type="hidden" name="course_id" value="{{room['course_id']}}">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
     <br>
-    <nav id="message" class="shadow navbar navbar-light bg-white mx-5">
-        <div class="container">
-            <a class="navbar-brand" href="/profile">
+    {% for course_id, posts in room_posts.items() %}
+        {% if course_id == room['course_id'] %}
+            {% for post in posts %}           
+    <br>
+    <div class="container">
+    <nav id="message" class="shadow navbar navbar-light mx-5">
+        <div class="container mb-2">
+            <a class="navbar-brand" href="/profile"> 
                 <p>
-                    <strong>Post Title</strong>
+                    <strong>{{ get_user_by_id(post.user_id)['username'] }}</strong>
                     <br>
-                    UserName, Concentration, Year
+                    <strong>{{ post.title }}</strong>
+                    <br>
                 </p>
             </a>
+        
         </div>
         <div class="container">
-                <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et quod asperiores reprehenderit, illo odio mollitia ducimus itaque ipsum. Necessitatibus illo corrupti ad maiores illum distinctio beatae commodi harum accusantium obcaecati.</p>
+                <p>{{ post.content }}</p>
         </div>
         <div class="container-right">
             <!-- add icons instead of text to button -->
@@ -51,4 +96,10 @@
             </button>
         </div>
     </nav>
+</div>
+                
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+    <br>
 {% endblock %}

@@ -32,10 +32,8 @@
     <div class="row profile-nav">
         <div class="navbar">
             <nav class="navbar">
-                <a id="prof-nav" class="navbar-brand">Posts</a>
-                <a id="prof-nav" class="navbar-brand">Liked</a>
-                <a id="prof-nav" class="navbar-brand">Disliked</a>
-                <a id="prof-nav" class="navbar-brand">Saved</a>
+                <a id="prof-nav" class="navbar-brand" data-toggle="tab" href="#posts">Posts</a>
+                <a id="prof-nav" class="navbar-brand" data-toggle="tab" href="#saved">Saved</a>
             </nav>
         </div>
     </div>
@@ -54,11 +52,11 @@
       </div>
     </div>
     <div id="no-post-msg" class="row justify-content-center">
-      {% if session.get('user').get('userinfo') %}
-      {{ session['user']['userinfo']['name'] }} hasn't posted yet...
-      {% else %}
-      {{ session['user']['username']}} hasn't posted yet...
-      {% endif %}
+        {% if session.get('user').get('userinfo') %}
+        {{ session['user']['userinfo']['name'] }} hasn't posted yet...
+        {% else %}
+        {{ session['user']['username']}} hasn't posted yet...
+        {% endif %}
     </div>
   </div>
 </div>

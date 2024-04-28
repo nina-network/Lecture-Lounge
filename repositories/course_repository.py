@@ -44,3 +44,15 @@ def create_course(course):
                 VALUES (%s, %s, %s, %s)
             ''', (course.get('course_subject', 'Default Subject'), course.get('course_number', 0), course['course_name'], course['description']))
             conn.commit()
+
+def get_all_course_ids():
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute('''
+                        SELECT 
+                            course_id
+                        FROM
+                            courses
+                        ''')
+            return[row[0] for row in cur.fetchall()]

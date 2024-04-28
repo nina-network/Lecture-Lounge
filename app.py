@@ -139,9 +139,7 @@ def profile_page():
     profile_pic = user_repository.get_profile_picture(user_id)
 
     if profile_pic:
-        print('if statement being passed')
         profile_pic = profile_pic['user_pic']
-        print('profile pic data being passed',profile_pic)
         return render_template('profile.html', profile_pic=profile_pic)
     
     print('if statement not being passed')
@@ -156,7 +154,6 @@ pics = ['default_pic.jpg', 'prof_img1.jpg', 'prof_img2.jpg'
 def profile_pic_page():
     if 'user' not in session:
         return redirect(url_for('login_page'))
-
     return render_template('profile_pic_page.html', pics=pics)
 
 @app.post('/update-pic')
@@ -172,12 +169,19 @@ def set_profile_pic():
 
     return render_template('profile.html', profile_pic=profile_pic)
 
+room_posts = {}
+
 @app.get('/room/<room_id>')
 def room(room_id):
     room = course_repository.get_course_by_id(room_id)
     if not room:
         abort(400)
-    return render_template('room.html', room=room)
+
+    course_ids = course_repository.get_all_course_ids()
+
+    for course_id in course_ids:
+        room_posts[course_id] = post_repository.get_post_by_course_id(course_id)
+    return render_template('room.html', room=room, room_posts=room_posts, get_user_by_id=user_repository.get_user_by_id)
 
 # name and text -- reconfigure after database is integrated
 @app.post('/room')
@@ -208,3 +212,28 @@ def create_room():
 @app.route('/search')
 def search_page():
     return render_template('search.html')
+
+@app.post('/create-post')
+def create_post():
+    post_title = request.form.get('post_title')
+    post_content = request.form.get('post_content')
+    user_id = request.form.get('user_id')
+    course_id = request.form.get('course_id')
+
+    if not post_title or not post_content or not user_id or not course_id:
+        abort(400)
+
+    new_post = {'title' : post_title,
+                'content' : post_content,
+                'user_id' : user_id,
+                'course_id' : course_id}
+    post_repository.create_new_post(new_post['title'], new_post['content'], new_post['user_id'], new_post['course_id'])
+
+    for post in post_repository.get_all_posts():
+        if post['course_id'] not in room_posts:
+            room_posts[post['course_id']] = []
+        room_posts[post['course_id']].append(post)
+        room_posts[post['course_id']] = room_posts[post['course_id']]
+
+    return redirect(url_for('room', room_id=course_id))
+
