@@ -9,3 +9,31 @@ def get_all_posts():
         with conn.cursor(row_factory=dict_row) as cursor:
             cursor.execute('SELECT * FROM posts;')
             return cursor.fetchall()
+        
+def get_post_by_course_id(course_id):
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor(row_factory=dict_row) as cur:
+            cur.execute('''
+                        SELECT  
+                            title,
+                            content,
+                            user_id,
+                            course_id
+                        FROM
+                            posts
+                        WHERE 
+                            course_id = %s
+                        ''', [course_id])
+            return cur.fetchall()
+        
+def create_new_post(title, content, user_id, course_id):
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor(row_factory=dict_row) as cursor:
+            cursor.execute('''
+                            INSERT INTO 
+                                posts (title, content, user_id, course_id)
+                            VALUES  
+                                (%s, %s, %s, %s)
+                            ''', [title, content, user_id, course_id])

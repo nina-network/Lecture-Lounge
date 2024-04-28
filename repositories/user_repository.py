@@ -112,5 +112,4 @@ def get_profile_picture(user_id):
                         ''', [user_id])
             row = cur.fetchone()
         print("row retrieved:", row)
-        return row
-            
+        return row      
