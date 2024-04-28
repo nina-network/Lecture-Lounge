@@ -1,20 +1,14 @@
 {% extends '_layout.html' %}
 
 {% block body %}
-    <style>
-        #board{
-            padding: 50px;
-        }
-        #id{
-            padding-top: ($spacer * 3) !important;
-        }
-    </style>
-    <br>
-    <nav id="board" class="shadow navbar navbar-light bg-white mx-5">
-        <div class="container">
+<br>
+    <nav id="board" class="shadow navbar navbar-light mx-5">
+        <div class="container" id="roomheader">
             <div>
                 <h1>{{ room['course_name'] }}</h1>
-                <p>{{ room['description'] }}</p>
+                <div id="description">
+                    <p>{{ room['description'] }}</p>
+                </div>
             </div>
             <form>
                 <button type="button" class="btn btn-outline-secondary">Create Post</button>
@@ -24,8 +18,8 @@
         </div>
     </nav>
     <br>
-    <nav id="message" class="shadow navbar navbar-light bg-white mx-5">
-        <div class="container">
+    <nav id="message" class="shadow navbar navbar-light mx-5">
+        <div class="container" id="message">
             <a class="navbar-brand" href="/profile">
                 <p>
                     <strong>Post Title</strong>
@@ -34,7 +28,7 @@
                 </p>
             </a>
         </div>
-        <div class="container">
+        <div class="container" id="message">
                 <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Et quod asperiores reprehenderit, illo odio mollitia ducimus itaque ipsum. Necessitatibus illo corrupti ad maiores illum distinctio beatae commodi harum accusantium obcaecati.</p>
         </div>
         <div class="container-right">

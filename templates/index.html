@@ -3,7 +3,7 @@
 {% block body %}
 
 {% for course in courses %}
-<div class="shadow m-5 p-5">
+<div id='room' class="shadow m-5 p-5">
     <a href="/room/{{ course }}"><h3> {{ courses[course] }} </h3></a>
     <ul>
     {% for post in posts[course] %}
