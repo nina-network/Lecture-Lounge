@@ -1,18 +1,6 @@
 {% extends '_layout.html' %}
 
 {% block body %}
-    <style>
-        #board{
-            padding: 50px;
-        }
-        #id{
-            padding-top: ($spacer * 3) !important;
-        }
-        
-        #post-box{
-            display:none;
-        }
-    </style>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const createPostBtn = document.getElementById("create-post");
@@ -34,15 +22,16 @@
     </script>
     <br>
     <nav id="board" class="shadow navbar navbar-light mx-5">
-        <div class="container">
+        <div class="container" id="roomheader">
             <div>
                 <h1>{{ room['course_name'] }}</h1>
-                <p>{{ room['description'] }}</p>
+                
+                <div id="description"><p>{{ room['description'] }}</p></div>
             </div>
             <form>
-                <button type="button" id="create-post" class="btn btn-outline-secondary">Create Post</button>
-                <button type="button" class="btn btn-outline-secondary">Contact TA</button>
-                <button type="button" class="btn btn-secondary">Join</button>
+                <button type="button" id="create-post" class="btn">Create Post</button>
+                <button type="button" class="btn">Contact TA</button>
+                <button type="button" class="btn">Join</button>
             </form>
         </div>
     </nav>
@@ -58,7 +47,7 @@
             </div>
             <input type="hidden" name="user_id" value="{{session['user']['user_id']}}">
             <input type="hidden" name="course_id" value="{{room['course_id']}}">
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn">Submit</button>
         </form>
     </div>
     <br>
@@ -68,7 +57,7 @@
     <br>
     <div class="container">
     <nav id="message" class="shadow navbar navbar-light mx-5">
-        <div class="container mb-2">
+        <div class="container mb-2" id="message">
             <a class="navbar-brand" href="/profile"> 
                 <p>
                     <strong>{{ get_user_by_id(post.user_id)['username'] }}</strong>

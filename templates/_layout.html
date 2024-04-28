@@ -70,18 +70,18 @@
         {% if not session['user'] %}
         <form class="form-inline">
             <div class="container">
-                <a class="btn btn-outline-secondary" href="/signup">Sign Up</a>
+                <a class="btn" href="/signup">Sign Up</a>
             </div>
         </form>
         <form class="form-inline">
             <div class="container">
-                <a class="btn btn-outline-secondary" href="/login">Login</a>
+                <a class="btn" href="/login">Login</a>
             </div>
         </form>
         {% else %}
         <form class="form-inline">
             <div class="container">
-                <a class="btn btn-outline-secondary" href="/logout">Logout</a>
+                <a class="btn" href="/logout">Logout</a>
             </div>
         </form>
         {% endif %}      
