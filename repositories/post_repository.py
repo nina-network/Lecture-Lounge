@@ -37,3 +37,21 @@ def create_new_post(title, content, user_id, course_id):
                             VALUES  
                                 (%s, %s, %s, %s)
                             ''', [title, content, user_id, course_id])
+            
+def get_post_by_user_id(user_id):
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor(row_factory=dict_row) as cur:
+            cur.execute('''
+                        SELECT
+                            title,
+                            content,
+                            user_id,
+                            course_id
+                        FROM
+                            posts
+                        WHERE
+                            user_id = %s
+                        ''', [user_id])
+            user_posts = cur.fetchall()
+        return user_posts

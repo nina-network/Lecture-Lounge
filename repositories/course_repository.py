@@ -56,3 +56,18 @@ def get_all_course_ids():
                             courses
                         ''')
             return[row[0] for row in cur.fetchall()]
+        
+def get_course_name_by_id(course_id):
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute('''
+                        SELECT
+                            course_name
+                        FROM
+                            courses
+                        WHERE
+                            course_id = %s
+                        ''', [course_id])
+            course_name = cur.fetchone()
+            return course_name
