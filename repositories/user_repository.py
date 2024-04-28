@@ -17,8 +17,7 @@ def does_username_exist(username: str) -> bool:
             return user_id is not None
 
 
-def create_user(first_name: str, last_name: str, email: str, username: str, password: str) -> dict[str, Any]:
-    default_role = 'student'
+def create_user(first_name: str, last_name: str, email: str, role: str, username: str, password: str) -> dict[str, Any]:
     pool = get_pool()
     with pool.connection() as conn:
         with conn.cursor() as cur:
@@ -26,7 +25,7 @@ def create_user(first_name: str, last_name: str, email: str, username: str, pass
                         INSERT INTO users (first_name, last_name, email, username, user_role, password)
                         VALUES (%s, %s, %s, %s, %s, %s)
                         RETURNING user_id
-                        ''', [first_name, last_name, email, username, default_role, password]
+                        ''', [first_name, last_name, email, username, role, password]
                         )
             user_id = cur.fetchone()
             if user_id is None:
