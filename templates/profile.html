@@ -38,6 +38,8 @@
         </div>
     </div>
 </div>
+{% if user_posts %}
+{%else%}
 <div class="container" id="profile-container">
   <div class="row justify-content-center align-items-center">
     <div class="col-auto profile-pic-container">
@@ -51,6 +53,29 @@
           </div>
       </div>
     </div>
+    {% endif %}
+    {% if user_posts %}
+    {% for post in user_posts %}
+      
+    <div class="container mt-4">
+      <nav id="message" class="shadow navbar navbar-light mx-5 mb-2">
+          <div class="container mb-2">
+              <a class="navbar-brand" href=""> 
+                  <p>
+                      <strong>{{ get_user_by_id(post.user_id)['username'] }}</strong>
+                      <br>
+                      <strong>{{ post.title }} | {{ get_course_name(post.course_id) | replace('(','') | replace(')', '') | replace(',', '') | replace("'", '')}}</strong>
+                      <br>
+                  </p>
+              </a>
+          </div>
+          <div class="container">
+                  <p>{{ post.content }}</p>
+          </div>
+      </nav>
+  </div>
+        {% endfor %}
+    {% else %}
     <div id="no-post-msg" class="row justify-content-center">
         {% if session.get('user').get('userinfo') %}
         {{ session['user']['userinfo']['name'] }} hasn't posted yet...
@@ -58,6 +83,10 @@
         {{ session['user']['username']}} hasn't posted yet...
         {% endif %}
     </div>
+    
+    
+    {% endif %}
+
   </div>
 </div>
 {% endblock %}

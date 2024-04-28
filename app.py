@@ -137,10 +137,10 @@ def profile_page():
     
     user_id = session['user'].get('user_id')
     profile_pic = user_repository.get_profile_picture(user_id)
-
+    user_posts = post_repository.get_post_by_user_id(user_id)
     if profile_pic:
         profile_pic = profile_pic['user_pic']
-        return render_template('profile.html', profile_pic=profile_pic)
+        return render_template('profile.html', profile_pic=profile_pic, user_posts=user_posts, get_user_by_id=user_repository.get_user_by_id, get_course_name=course_repository.get_course_name_by_id)
     
     return render_template('profile.html')
 
@@ -166,7 +166,7 @@ def set_profile_pic():
     user_id = session['user'].get('user_id')
     user_repository.set_profile_picture(user_id, profile_pic)
 
-    return render_template('profile.html', profile_pic=profile_pic)
+    return redirect(url_for('profile_page', profile_pic=profile_pic))
 
 room_posts = {}
 
