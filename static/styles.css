@@ -19,8 +19,8 @@
 :root {
     --dark-background-color: #303B30;
     --dark-background-color-alt: #294426;
-    --dark-trim-color: #333333;
-    --dark-text-color: #f7f7f7;
+    --dark-trim-color: #303B30;
+    --dark-text-color: #303B30;
 }
 
 body {
@@ -43,26 +43,26 @@ body {
 
     #board{
         padding: 50px;
-        color: #f7f7f7;
+        color: #294426;
     }
 
     #message {
-        background-color: #f7f7f7;
-        color: #474747;
+        background-color: #7b9d7f;
+        color: #294426;
       }
     
       #room{
         background-color: #7b9d7f;
-        color: #005236;
+        color: #294426;
       }
     
       #description{
-        color: #005236;
+        color: #294426;
       }
 
       a {
         text-decoration: none;
-        color: #f7f7f7;
+        color: #294426;
       }
     
         a:hover {
@@ -76,7 +76,7 @@ body {
         }
 
         .card-body{
-            color: #005236;
+            color: #294426;
         }
 
         .btn {
@@ -85,10 +85,48 @@ body {
             color: #f7f7f7;
         }
         .btn:hover {
-            border-color: #005236;
+            border-color: #294426;
             background-color: #e5a9c5;
             color: #f7f7f7;
         }
+
+        .row{
+            background-color: #7b9d7f;
+        }
+
+        #profile-container{
+            background-color: #7b9d7f;
+        }
+
+        .profile-nav{
+            background-color: #7b9d7f;
+        }
+
+        .profile-pic-container{
+            background-color: #7b9d7f;
+        }
+
+        .username-big{
+            margin-top: 10px;
+            font-size: 40px;
+            color: #294426;
+        }
+
+        #no-post-msg{
+            color: #294426;
+        }
+
+        #prof-nav{
+            text-align: center;
+            margin-left: 20px;
+            margin-right: 20px;
+            color: #294426;
+        }
+
+        #outer-border{
+            background-color: #7b9d7f;
+        }
+        
 }
 
 body.theme-dark {
@@ -112,8 +150,8 @@ body.theme-dark {
     }
 
     #message {
-        background-color: #f7f7f7;
-        color: #474747;
+        background-color: #294426;
+        color: #f7f7f7;
       }
     
       #room{
@@ -144,6 +182,37 @@ body.theme-dark {
             color: #f7f7f7;
         }
 
+        .username-big{
+            margin-top: 10px;
+            font-size: 40px;
+            color: #f7f7f7;
+        }
+
+        .row{
+            background-color: #294426;
+        }
+
+        #profile-container{
+            background-color: #294426;
+        }
+
+        .profile-nav{
+            background-color: #294426;
+        }
+
+        .profile-pic-container{
+            background-color: #294426;
+        }
+
+        #no-post-msg{
+            color: #f7f7f7;
+        }
+
+        #prof-nav{
+            margin-left: 20px;
+            margin-right: 20px;
+            color: #f7f7f7;
+        }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -292,12 +361,6 @@ body.theme-dark {
   border-radius: 50%; 
   overflow: hidden; 
 }  
-    
-.username-big{
-    margin-top: 10px;
-    font-size: 40px;
-    color: #7b9d7f;
-}
 
 .username-small{
     font-size: 20px;
@@ -306,11 +369,6 @@ body.theme-dark {
 #profile-container{
     padding: 20px;
 } 
-
-#prof-nav{
-    margin-left: 20px;
-    margin-right: 20px;
-}
 
 #post-prof{
   width: 100px;
@@ -376,10 +434,6 @@ body.theme-dark {
 
 .profile-select button:hover{
     -webkit-filter: brightness(70%);
-}
-
-#post-box{
-    display:none;
 }
 
     #id {
