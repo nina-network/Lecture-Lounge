@@ -1,51 +1,26 @@
 {% extends '_layout.html' %}
 
-{% block body %}
+{% block styles %}
 <style>
 
-    .box {
-        max-width: 600px;
-        margin: 40px auto;
-        padding: 20px;
-        background-color: #7b9d7f;
-        border-radius: 8px;
-    }
-
-    .search-container {
-        border-radius: 8px;
-        padding: 10px;
-        margin-bottom: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .search-input {
-        flex-grow: 1;
-        margin-right: 10px;
-        padding: 10px;
-        border-radius: 4px;
-        font-size: 16px;
-        outline: none;
-    }
-
-    .search-input h1 {
-        font-size: 24px;
-        margin-top: 20px;
-        color: #294426;
-    }
 </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1 class="search-title">Search Rooms</h1>
+            <form action="/search" method="POST">
+                <input class="search-input" type="text" name="search_query" placeholder="Enter room name">
+                <button class="search-button" type="submit">Search</button>
+            </form>
 
 
-
-<div class="box">
-    <div class="search-container">
-        <input class="search-input" type="text" placeholder="Search...">
-        <button class="btn" type="button">Search</button>
+        
+            <h2>Search Results:</h2>
+            <ul>
+                {% for room_id, room_name in search_results.items() %}
+                    <li><a href="/room/{{ room_id }}">{{ room_name }}</a></li>
+                {% endfor %}
+            </ul>
     </div>
-    <div class="search-input">
-        <h1>This is where the search results will be displayed</h1>
-    </div>
-</div>
-
 {% endblock %}

@@ -209,10 +209,6 @@ def create_rooms():
 def create_room():
     return render_template('create_room.html')
 
-@app.route('/search')
-def search_page():
-    return render_template('search.html')
-
 @app.post('/create-post')
 def create_post():
     post_title = request.form.get('post_title')
@@ -237,3 +233,16 @@ def create_post():
 
     return redirect(url_for('room', room_id=course_id))
 
+@app.route('/search', methods=['GET', 'POST'])
+def search_page():
+    search_results = {}
+    if request.method == 'POST':
+        search_query = request.form.get('search_query')
+        if search_query:
+            courses = course_repository.get_all_courses()
+            if not courses:
+                abort(400)  
+            for course in courses:
+                if search_query.lower() in course['course_name'].lower():
+                    search_results[course['course_id']] = course['course_name']
+    return render_template('search.html', search_results=search_results)
