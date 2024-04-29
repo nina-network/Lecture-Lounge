@@ -112,11 +112,12 @@ def signup():
     first_name = request.form.get('first_name')
     last_name = request.form.get('last_name')
     email = request.form.get('email')
+    role = request.form.get('role')
     username = request.form.get('username')
     password = request.form.get('password')
     confirm_password = request.form.get('confirm_password')
 
-    if not all([first_name, last_name, email, user_repository, password, confirm_password]):
+    if not all([first_name, last_name, email, role, username, password, confirm_password]):
         error = "All fields are required."
         return render_template('signup.html', error=error)
     
@@ -126,7 +127,7 @@ def signup():
 
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
 
-    user_repository.create_user(first_name, last_name, email, username, hashed_password)
+    user_repository.create_user(first_name, last_name, email, role, username, hashed_password)
 
     return redirect(url_for('login_page'))
 
