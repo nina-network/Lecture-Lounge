@@ -206,14 +206,19 @@ def profile_page():
     if profile_pic:
         profile_pic = profile_pic['user_pic']
         return render_template('profile.html', profile_pic=profile_pic, user_posts=user_posts, get_user_by_id=user_repository.get_user_by_id, get_course_name=course_repository.get_course_name_by_id)
-    if session['picture']:
+    if 'picture' in session:
         user_id = user_repository.get_user_id_by_email(session['email'])
         user_id = user_id['user_id']
         profile_pic = session['picture']
         user_posts = post_repository.get_post_by_user_id(user_id)
         return render_template('profile.html', profile_pic=profile_pic, user_posts=user_posts, get_user_by_id=user_repository.get_user_by_id, get_course_name=course_repository.get_course_name_by_id)
-    
-    return render_template('profile.html')
+    if 'email' in session:
+        user_id = user_repository.get_user_id_by_email(session['email'])
+        user_id = user_id['user_id']
+        user_posts = post_repository.get_post_by_user_id(user_id)
+        return render_template('profile.html', user_posts=user_posts, get_user_by_id=user_repository.get_user_by_id, get_course_name=course_repository.get_course_name_by_id)
+
+    return render_template('profile.html', user_posts=user_posts, get_user_by_id=user_repository.get_user_by_id, get_course_name=course_repository.get_course_name_by_id)
 
 pics = ['default_pic.jpg', 'prof_img1.jpg', 'prof_img2.jpg'
             , 'prof_img3.jpg', 'prof_img4.jpg', 'prof_img5.jpg'
