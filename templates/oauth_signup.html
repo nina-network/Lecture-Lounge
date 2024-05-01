@@ -1,0 +1,31 @@
+{% extends "_layout.html" %}
+
+{% block body %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title text-center">Please provide the following information</h5>
+                {% if error %}
+                <p class="text-danger">{{ error }}</p>
+                {% endif %}
+                <form action="/signup-auth" method="POST">
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <select class="form-select" id="role" name="role" aria-label="Select Role">
+                            <option disabled>Select Role</option>
+                            <option value="ta" {% if role == 'ta' %} selected {% endif %}>TA</option>
+                            <option value="student" {% if role == 'student' %} selected {% endif %}>Student</option>
+                        </select>
+                    </div>                                   
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Username" value="{{ request.form.get('username', '') }}">
+                    </div>
+                    <button type="submit" class="btn">Sign Up</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

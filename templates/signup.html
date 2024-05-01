@@ -26,7 +26,6 @@
                         <label for="role" class="form-label">Role</label>
                         <select class="form-select" id="role" name="role" aria-label="Select Role">
                             <option disabled>Select Role</option>
-                            <option value="admin" {% if role == 'admin' %} selected {% endif %}>Admin</option>
                             <option value="ta" {% if role == 'ta' %} selected {% endif %}>TA</option>
                             <option value="student" {% if role == 'student' %} selected {% endif %}>Student</option>
                         </select>
