@@ -181,6 +181,10 @@ def room(room_id):
 
     for course_id in course_ids:
         room_posts[course_id] = post_repository.get_post_by_course_id(course_id)
+    
+    if 'user' not in session:
+        return redirect(url_for('login_page'))
+    
     return render_template('room.html', room=room, room_posts=room_posts, get_user_by_id=user_repository.get_user_by_id)
 
 # name and text -- reconfigure after database is integrated
@@ -235,6 +239,7 @@ def create_post():
 
 @app.route('/search', methods=['GET', 'POST'])
 def search_page():
+    message = None
     search_results = {}
     if request.method == 'POST':
         search_query = request.form.get('search_query')
@@ -245,4 +250,7 @@ def search_page():
             for course in courses:
                 if search_query.lower() in course['course_name'].lower():
                     search_results[course['course_id']] = course['course_name']
-    return render_template('search.html', search_results=search_results)
+            if not search_results:
+                message = "No rooms with that name were found."
+    
+    return render_template('search.html', search_results=search_results, message=message)
