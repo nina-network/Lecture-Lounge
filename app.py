@@ -1,4 +1,4 @@
-import os
+import os, re
 from flask import Flask, render_template, session, url_for, request, redirect, abort
 from authlib.integrations.flask_client import OAuth
 from repositories import course_repository, post_repository
@@ -107,22 +107,44 @@ def logout():
 def signup_page():
     return render_template('signup.html')
 
+email_regex = r'^[a-zA-Z0-9._%+-]+@uncc\.edu$'
+password_regex = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$'
+
 @app.route('/signup', methods=['POST'])
 def signup():
     first_name = request.form.get('first_name')
     last_name = request.form.get('last_name')
     email = request.form.get('email')
-    role = request.form.get('role')
+    role = request.form.get('role').lower()
     username = request.form.get('username')
     password = request.form.get('password')
     confirm_password = request.form.get('confirm_password')
 
+    if not re.match(email_regex, email):
+        error = "Please use a valid @uncc.edu email address."
+        return render_template('signup.html', error=error)
+
+    if not re.match(password_regex, password):
+        error = "Password must contain at least 12 characters including uppercase, lowercase, number, and special character."
+        return render_template('signup.html', error=error)
+
     if not all([first_name, last_name, email, role, username, password, confirm_password]):
         error = "All fields are required."
         return render_template('signup.html', error=error)
-    
+
     if user_repository.get_user_by_email(email):
         error = "Email is already registered."
+        return render_template('signup.html', error=error)
+    
+    if user_repository.get_user_by_username(username):
+        error = "Username is already taken."
+        return render_template('signup.html', error=error)
+    
+    if role == "ta":
+        role = role.upper()
+
+    if password != confirm_password:
+        error = "Passwords do not match."
         return render_template('signup.html', error=error)
 
     hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
