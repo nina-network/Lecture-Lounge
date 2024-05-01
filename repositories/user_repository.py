@@ -35,6 +35,21 @@ def create_user(first_name: str, last_name: str, email: str, role: str, username
                 'username': username
             }
         
+def create_oauth_user(first_name: str, last_name: str, username: str, role: str, email: str):
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor() as cur:
+            cur.execute('''
+                        INSERT INTO users (first_name, last_name, email, username, user_role)
+                        VALUES (%s, %s, %s, %s, %s)
+                        RETURNING user_id
+                        ''', [first_name, last_name, email, username, role]
+                        )
+            user_id = cur.fetchone()
+            if user_id is None:
+                raise Exception('failed to create user')
+
+        
 def get_user_by_email(email: str) -> dict[str, Any] | None:
     pool = get_pool()
     with pool.connection() as conn:

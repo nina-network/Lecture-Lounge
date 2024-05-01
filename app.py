@@ -39,15 +39,19 @@ oauth.register("myApp",
 rooms = {}
 room_texts = {}
 
+email_regex = r'^[a-zA-Z0-9._%+-]+@uncc\.edu$'
+password_regex = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$'
+
 @app.get('/')
 def index():
 
     # query the database for all courses and posts
-    courses = course_repository.get_all_courses();
-    posts = post_repository.get_all_posts();
-
-    if not courses or not posts:
-        abort(400)
+    try:
+        courses = course_repository.get_all_courses();
+        posts = post_repository.get_all_posts();
+    except:
+        # render error page here
+        return "<h1>Error Occurred</h1>" # temporary error
 
     room_posts = {}
 
@@ -94,7 +98,25 @@ def googleLogin():
 @app.get('/signin-google')
 def googleCallback():
     token = oauth.myApp.authorize_access_token() # authorize and store token
-    session['user'] = token # store token in session, indicating user is logged in
+    email = token['userinfo']['email']
+
+    # check if email is uncc.edu email, redirect to login page and display error message if not
+    if not re.match(email_regex, email):
+        error = "Please use a valid @uncc.edu email address."
+        return render_template('login.html', error=error)
+    
+    session['first_name'] = token['userinfo']['given_name']
+    session['last_name'] = token['userinfo']['family_name']
+    session['email'] = email
+
+    print(token)
+    # check if email is in DB
+    # if not in DB, redirect to sign up page where user can enter username and role
+    user = user_repository.get_user_by_email(email)
+    if user is None:
+        return redirect(url_for('signup_auth'))
+    # store token in session, indicating user is logged in
+    session['user'] = token
     return redirect(url_for('profile_page'))
 
 # logout
@@ -103,12 +125,31 @@ def logout():
     session.pop('user', None) # remove token from session (log out user)
     return redirect(url_for('login_page'))
 
+@app.get('/signup-auth')
+def signup_auth():
+    return render_template("oauth_signup.html")
+
+# POST REQUEST HERE FOR OAUTH
+@app.post('/signup-auth')
+def signup_auth_post():
+    username = request.form.get('username')
+    first_name = session['first_name']
+    last_name = session['last_name']
+    user_role = request.form.get('role').lower()
+    email = session['email']
+
+    if not username or not user_role:
+        abort(400)
+
+    if user_role == "ta":
+        user_role = user_role.upper()
+
+    user_repository.create_oauth_user(first_name, last_name, username, user_role, email)
+    return redirect(url_for('profile_page'))
+
 @app.route('/signup', methods=['GET'])
 def signup_page():
     return render_template('signup.html')
-
-email_regex = r'^[a-zA-Z0-9._%+-]+@uncc\.edu$'
-password_regex = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{12,}$'
 
 @app.route('/signup', methods=['POST'])
 def signup():
