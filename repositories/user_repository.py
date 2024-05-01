@@ -65,6 +65,21 @@ def get_user_by_email(email: str) -> dict[str, Any] | None:
                         ''', [email])
             user = cur.fetchone()
             return user
+        
+def get_user_id_by_email(email: str) -> dict[str, Any] | None:
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor(row_factory=dict_row) as cur:
+            cur.execute('''
+                        SELECT
+                            user_id
+                        FROM
+                            users
+                        WHERE 
+                            email = %s
+                        ''', [email])
+            user_id = cur.fetchone()
+            return user_id
 
 def get_user_by_username(username: str) -> dict[str, Any] | None:
     pool = get_pool()

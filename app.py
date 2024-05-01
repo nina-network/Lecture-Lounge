@@ -202,11 +202,23 @@ def profile_page():
     user_id = session['user'].get('user_id')
     profile_pic = user_repository.get_profile_picture(user_id)
     user_posts = post_repository.get_post_by_user_id(user_id)
+
     if profile_pic:
         profile_pic = profile_pic['user_pic']
         return render_template('profile.html', profile_pic=profile_pic, user_posts=user_posts, get_user_by_id=user_repository.get_user_by_id, get_course_name=course_repository.get_course_name_by_id)
-    
-    return render_template('profile.html')
+    if 'picture' in session:
+        user_id = user_repository.get_user_id_by_email(session['email'])
+        user_id = user_id['user_id']
+        profile_pic = session['picture']
+        user_posts = post_repository.get_post_by_user_id(user_id)
+        return render_template('profile.html', profile_pic=profile_pic, user_posts=user_posts, get_user_by_id=user_repository.get_user_by_id, get_course_name=course_repository.get_course_name_by_id)
+    if 'email' in session:
+        user_id = user_repository.get_user_id_by_email(session['email'])
+        user_id = user_id['user_id']
+        user_posts = post_repository.get_post_by_user_id(user_id)
+        return render_template('profile.html', user_posts=user_posts, get_user_by_id=user_repository.get_user_by_id, get_course_name=course_repository.get_course_name_by_id)
+
+    return render_template('profile.html', user_posts=user_posts, get_user_by_id=user_repository.get_user_by_id, get_course_name=course_repository.get_course_name_by_id)
 
 pics = ['default_pic.jpg', 'prof_img1.jpg', 'prof_img2.jpg'
             , 'prof_img3.jpg', 'prof_img4.jpg', 'prof_img5.jpg'
@@ -226,10 +238,18 @@ def set_profile_pic():
     profile_pic = request.form.get('profile_pic')
     if not profile_pic:
         abort(400)
-    session['user']['profile_pic'] = profile_pic
-    user_id = session['user'].get('user_id')
-    user_repository.set_profile_picture(user_id, profile_pic)
 
+    # for manual sign-in
+    if(session['user'].get('user_id')):
+        session['user']['profile_pic'] = profile_pic
+        user_id = session['user']['user_id'] 
+        user_repository.set_profile_picture(user_id, profile_pic)
+    
+    # for google sign-in
+    session['picture'] = profile_pic
+    user_id = user_repository.get_user_id_by_email(session['email'])
+    user_repository.set_profile_picture(user_id['user_id'], profile_pic)
+    
     return redirect(url_for('profile_page', profile_pic=profile_pic))
 
 room_posts = {}
@@ -283,8 +303,12 @@ def create_post():
     user_id = request.form.get('user_id')
     course_id = request.form.get('course_id')
 
-    if not post_title or not post_content or not user_id or not course_id:
+    if not post_title or not post_content or not course_id:
         abort(400)
+
+    if not user_id:
+        user_id = user_repository.get_user_id_by_email(session['email'])
+        user_id = user_id['user_id']
 
     new_post = {'title' : post_title,
                 'content' : post_content,
