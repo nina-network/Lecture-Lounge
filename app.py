@@ -116,6 +116,12 @@ def signup():
     username = request.form.get('username')
     password = request.form.get('password')
     confirm_password = request.form.get('confirm_password')
+    
+    
+    valid_roles = ['student', 'TA', 'admin']
+    if role not in valid_roles:
+        error = f"Invalid role: {role}. Please choose from {', '.join(valid_roles)}."
+        return render_template('signup.html', error=error)
 
     if not all([first_name, last_name, email, role, username, password, confirm_password]):
         error = "All fields are required."
