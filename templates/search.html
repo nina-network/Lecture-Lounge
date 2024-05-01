@@ -2,7 +2,6 @@
 
 {% block body %}
 <style>
-
     .box {
         max-width: 600px;
         margin: 40px auto;
@@ -29,22 +28,45 @@
         outline: none;
     }
 
-    .search-input h1 {
+    .room-card {
+        margin-bottom: 10px;
+    }
+
+    .room-link {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    h1 {
         font-size: 24px;
         margin-top: 20px;
         color: #294426;
     }
+
+    .search-results p {
+        font-size: 18px;
+        color: #294426;
+    }
 </style>
-
-
 
 <div class="box">
     <div class="search-container">
-        <input class="search-input" type="text" placeholder="Search...">
-        <button class="btn" type="button">Search</button>
+        <form action="/search" method="POST">
+            <input class="search-input" type="text" name="search_query" placeholder="Search...">
+            <button class="btn" type="submit">Search</button>
+        </form>
     </div>
-    <div class="search-input">
-        <h1>This is where the search results will be displayed</h1>
+
+    <div class="search-results">
+        {% if message %}
+            <p>{{ message }}</p>
+        {% else %}
+            {% for room_id, room_name in search_results.items() %}
+                <div class="room-card">
+                    <a href="/room/{{ room_id }}" class="room-link">{{ room_name }}</a>
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 </div>
 
