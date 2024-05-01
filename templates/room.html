@@ -7,7 +7,7 @@
             const postBox = document.getElementById("post-box");
 
             let boxVisible = false;
-       
+
             createPostBtn.addEventListener("click", function () {
                 
                 if (!boxVisible) {
@@ -35,7 +35,7 @@
             </form>
         </div>
     </nav>
-    <div id="post-box" class="container post-box border border-3 p-2 mt-3">
+    <div id="post-box" class="container post-box border border-3 p-2 mt-3" style="display: none;">
         <form action="/create-post" method="post">
             <div id="description" class="mb-3 mt-3">
                 <label for="post_title" class="form-label">Post Title</label>
