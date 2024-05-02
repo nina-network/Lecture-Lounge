@@ -41,9 +41,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/"><strong>Lecture Lounge</strong></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/createroom">Create a Room</a>
-                </li>
+                    {% if session['user'] and session['user']['user_role'] == 'TA' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/createroom">Create a Room</a>
+                    </li>
+                    {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="/search">Search for a Room</a>
                 </li>
