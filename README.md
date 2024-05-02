@@ -1,4 +1,5 @@
-# Lecture Lounge xw
+# Lecture Lounge
+![lecture-lounge](https://github.com/nina-network/Lecture-Lounge/assets/107705900/a0a94b73-63f8-4f48-b0b8-fba55dd64f8d)
 
 
 ## ITSC-3155 Spring 2024
