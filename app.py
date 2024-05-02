@@ -80,7 +80,8 @@ def login():
     username = request.form.get('username')
     password = request.form.get('password')
     if not username or not password:
-        abort(400)
+        error = "Please enter a valid username and password"
+        return render_template('login.html', error=error)
     user = user_repository.get_user_by_username(username)
     if user is None:
         error = "That user does not exist."
@@ -120,6 +121,9 @@ def googleCallback():
         return redirect(url_for('signup_auth'))
     # store token in session, indicating user is logged in
     session['user'] = token
+    print(user['user_role'])
+    session['user']['user_role'] = user['user_role']
+
     return redirect(url_for('profile_page'))
 
 # logout
