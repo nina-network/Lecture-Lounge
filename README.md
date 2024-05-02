@@ -1,5 +1,4 @@
-# Lecture Lounge 
-/static/images/lecture-lounge.png?raw=true
+# Lecture Lounge xw
 
 
 ## ITSC-3155 Spring 2024
@@ -18,7 +17,7 @@ Through Lecture Lounge, students can ask questions, seek clarification on course
 
 ## Contributors
 
-- [Chad Carreon]
+- @Chad Carreon - https://github.com/carrchadd
 - [Shae Eggert]
 - [Carson Bavery]
 - [Serena Lee]
