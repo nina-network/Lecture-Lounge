@@ -1,25 +1,48 @@
 {% extends '_layout.html' %}
 
 {% block body %}
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const createPostBtn = document.getElementById("create-post");
-            const postBox = document.getElementById("post-box");
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const createPostBtn = document.getElementById("create-post");
+        const postBox = document.getElementById("post-box");
 
-            let boxVisible = false;
+        let boxVisible = false;
 
-            createPostBtn.addEventListener("click", function () {
-                
-                if (!boxVisible) {
-                    postBox.style.display = "block";
-                    boxVisible = true;
-                } else {
-                    postBox.style.display = "none";
-                    boxVisible = false;
-                }
+        createPostBtn.addEventListener("click", function () {
+            if (!boxVisible) {
+                postBox.style.display = "block";
+                boxVisible = true;
+            } else {
+                postBox.style.display = "none";
+                boxVisible = false;
+            }
+        });
+
+        document.querySelectorAll('.delete-form').forEach(form => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const postId = form.getAttribute('action');
+                fetch(postId, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        location.reload();
+                    } else {
+                        console.error('Failed to delete post');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
             });
         });
-    </script>
+    });
+</script>
+
     <br>
     <nav id="board" class="shadow navbar navbar-light mx-5">
         <div class="container" id="roomheader">
@@ -69,6 +92,11 @@
             </div>
             <div class="container">
                     <p>{{ post.content }}</p>
+            </div>
+            <div class="container-right">
+                <form class="delete-form" action="/delete-post/{{ post.title }}" method="post">
+                    <button type="submit" class="btn btn-danger delete-post-btn">Delete</button>
+                </form>
             </div>
         </nav>
     </div>
