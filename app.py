@@ -297,7 +297,6 @@ def create_rooms():
     
     return redirect(url_for('index', room_courses=room_courses))
 
-
 @app.get('/createroom')
 def create_room():
     return render_template('create_room.html')
@@ -329,6 +328,22 @@ def create_post():
         room_posts[post['course_id']] = room_posts[post['course_id']]
 
     return redirect(url_for('room', room_id=course_id))
+
+@app.get('/contact-ta')
+def contact_ta():
+    try:
+        users = user_repository.get_all_users();
+    except:
+        # render error page here
+        return "<h1>Error Occurred: No users at this time!</h1>" # temporary error
+    ta_users = {}
+    for user in users:
+        if user['user_role'] == 'TA':
+            full_name = user['first_name'] + ' ' + user['last_name']
+            ta_users[user['email']] = full_name
+            sorted(ta_users.items())
+
+    return render_template('contact_ta.html', ta_users = ta_users)
 
 @app.route('/search', methods=['GET', 'POST'])
 def search_page():

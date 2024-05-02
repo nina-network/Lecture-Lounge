@@ -113,6 +113,18 @@ def get_user_by_id(user_id: int) -> dict[str, Any] | None:
             user = cur.fetchone()
             return user
         
+def get_all_users():
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor(row_factory=dict_row) as cur:
+            cur.execute('''
+                        SELECT
+                            *
+                        FROM
+                            users
+                        ''')
+            return cur.fetchall()
+        
 def set_profile_picture(user_id: int, pic_url: str):
     pool = get_pool()
     with pool.connection() as conn:

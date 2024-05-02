@@ -126,6 +126,11 @@ body {
         #outer-border{
             background-color: #7b9d7f;
         }
+
+        #contact-ta{
+            text-align: center;
+            color:#7b9d7f
+        }
         
 }
 
@@ -212,6 +217,11 @@ body.theme-dark {
             margin-left: 20px;
             margin-right: 20px;
             color: #f7f7f7;
+        }
+
+        #contact-ta{
+            text-align: center;
+            color:#f7f7f7
         }
 }
 
@@ -436,7 +446,7 @@ body.theme-dark {
     -webkit-filter: brightness(70%);
 }
 
-    #id {
+#id {
     padding-top: (spacer * 3) !important;
 }
 
