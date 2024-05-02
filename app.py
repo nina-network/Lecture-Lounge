@@ -83,9 +83,12 @@ def login():
         abort(400)
     user = user_repository.get_user_by_username(username)
     if user is None:
-        abort(401)
+        error = "That user does not exist."
+        return render_template('login.html', error=error)
     if not bcrypt.check_password_hash(user['hashed_password'], password):
-        abort(401)
+        error = "Incorrect password, try again."
+        return render_template('login.html', error=error)
+
     session['user'] = user
     return redirect(url_for('index'))
 
@@ -162,9 +165,9 @@ def signup():
     confirm_password = request.form.get('confirm_password')
 
     if role is None:
-        error = "Role field is required."
+        error = "Please select a valid role"
         return render_template('signup.html', error=error)
-    
+
     if role == "ta":
         role = role.upper()
     
@@ -300,9 +303,13 @@ def create_rooms():
     
     return redirect(url_for('index', room_courses=room_courses))
 
-
 @app.get('/createroom')
 def create_room():
+    if 'user' not in session:
+        return redirect(url_for('login')) 
+    if session['user']['user_role'] != 'TA':
+        return "You are not authorized to access this page. Only TA's can create rooms. <a href='/'>Go back</a>"  # Display error page for unauthorized access
+
     return render_template('create_room.html')
 
 @app.post('/create-post')
@@ -333,6 +340,22 @@ def create_post():
 
     return redirect(url_for('room', room_id=course_id))
 
+@app.get('/contact-ta')
+def contact_ta():
+    try:
+        users = user_repository.get_all_users();
+    except:
+        # render error page here
+        return "<h1>Error Occurred: No users at this time!</h1>" # temporary error
+    ta_users = {}
+    for user in users:
+        if user['user_role'] == 'TA':
+            full_name = user['first_name'] + ' ' + user['last_name']
+            ta_users[user['email']] = full_name
+            sorted(ta_users.items())
+
+    return render_template('contact_ta.html', ta_users = ta_users)
+
 @app.route('/search', methods=['GET', 'POST'])
 def search_page():
     message = None
@@ -353,5 +376,20 @@ def search_page():
 
 @app.route('/delete-post/<string:title>', methods=['POST'])
 def delete_post(title):
-    post_repository.delete_post_by_title(title)
-    return jsonify({'success': True})
+    if 'user' not in session:
+        return jsonify({'success': False, 'error': 'User not logged in'})
+
+    user_id = session['user'].get('user_id')
+
+    post = post_repository.get_post_by_title(title)
+    if not post:
+        return jsonify({'success': False, 'error': 'Post not found'})
+    if post['user_id'] != user_id:
+        return jsonify({'success': False, 'error': 'Unauthorized: You can only delete your own posts'})
+
+    success = post_repository.delete_post_by_title(title)
+
+    if success:
+        return jsonify({'success': True})
+    else:
+        return jsonify({'success': False, 'error': 'Failed to delete post'})
