@@ -72,3 +72,18 @@ def get_post_by_user_id(user_id):
                         ''', [user_id])
             user_posts = cur.fetchall()
         return user_posts
+    
+def delete_post_by_title(title):
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor() as cur:
+            try:
+                cur.execute('DELETE FROM comments WHERE post_id IN (SELECT post_id FROM posts WHERE title = %s)', [title])
+                cur.execute('DELETE FROM posts WHERE title = %s', [title])
+                
+                conn.commit()
+                return True
+            except Exception as e:
+                print(f"Error deleting post: {e}")
+                conn.rollback()
+                return False

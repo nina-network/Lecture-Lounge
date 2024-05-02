@@ -1,5 +1,5 @@
 import os, re
-from flask import Flask, render_template, session, url_for, request, redirect, abort
+from flask import Flask, render_template, session, url_for, request, redirect, abort, jsonify
 from authlib.integrations.flask_client import OAuth
 from repositories import course_repository, post_repository
 from random import randint
@@ -347,3 +347,8 @@ def search_page():
                 message = "No rooms with that name were found."
     
     return render_template('search.html', search_results=search_results, message=message)
+
+@app.route('/delete-post/<string:title>', methods=['POST'])
+def delete_post(title):
+    post_repository.delete_post_by_title(title)
+    return jsonify({'success': True})
