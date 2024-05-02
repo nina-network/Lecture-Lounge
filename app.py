@@ -1,5 +1,5 @@
 import os, re
-from flask import Flask, render_template, session, url_for, request, redirect, abort
+from flask import Flask, render_template, session, url_for, request, redirect, abort, jsonify
 from authlib.integrations.flask_client import OAuth
 from repositories import course_repository, post_repository, user_courses_repository
 from random import randint
@@ -83,9 +83,12 @@ def login():
         abort(400)
     user = user_repository.get_user_by_username(username)
     if user is None:
-        abort(401)
+        error = "That user does not exist."
+        return render_template('login.html', error=error)
     if not bcrypt.check_password_hash(user['hashed_password'], password):
-        abort(401)
+        error = "Incorrect password, try again."
+        return render_template('login.html', error=error)
+
     session['user'] = user
     return redirect(url_for('index'))
 
@@ -156,11 +159,17 @@ def signup():
     first_name = request.form.get('first_name')
     last_name = request.form.get('last_name')
     email = request.form.get('email')
-    role = request.form.get('role').lower()
+    role = request.form.get('role')
     username = request.form.get('username')
     password = request.form.get('password')
     confirm_password = request.form.get('confirm_password')
-    
+
+    if role is None:
+        error = "Please select a valid role"
+        return render_template('signup.html', error=error)
+
+    if role == "ta":
+        role = role.upper()
     
     valid_roles = ['student', 'TA', 'admin']
     if role not in valid_roles:
@@ -186,9 +195,6 @@ def signup():
     if user_repository.get_user_by_username(username):
         error = "Username is already taken."
         return render_template('signup.html', error=error)
-    
-    if role == "ta":
-        role = role.upper()
 
     if password != confirm_password:
         error = "Passwords do not match."
@@ -299,6 +305,11 @@ def create_rooms():
 
 @app.get('/createroom')
 def create_room():
+    if 'user' not in session:
+        return redirect(url_for('login')) 
+    if session['user']['user_role'] != 'TA':
+        return "You are not authorized to access this page. Only TA's can create rooms. <a href='/'>Go back</a>"  # Display error page for unauthorized access
+
     return render_template('create_room.html')
 
 @app.post('/create-post')
@@ -397,3 +408,23 @@ def search_page():
                 message = "No rooms with that name were found."
     
     return render_template('search.html', search_results=search_results, message=message)
+
+@app.route('/delete-post/<string:title>', methods=['POST'])
+def delete_post(title):
+    if 'user' not in session:
+        return jsonify({'success': False, 'error': 'User not logged in'})
+
+    user_id = session['user'].get('user_id')
+
+    post = post_repository.get_post_by_title(title)
+    if not post:
+        return jsonify({'success': False, 'error': 'Post not found'})
+    if post['user_id'] != user_id:
+        return jsonify({'success': False, 'error': 'Unauthorized: You can only delete your own posts'})
+
+    success = post_repository.delete_post_by_title(title)
+
+    if success:
+        return jsonify({'success': True})
+    else:
+        return jsonify({'success': False, 'error': 'Failed to delete post'})

@@ -172,7 +172,32 @@ body {
         .row{
             background-color: #7b9d7f;
         }
-        
+
+        .post-card {
+            color: #294426;
+        }
+        #container{
+            color: #7b9d7f;
+            width: 500px; 
+            margin-top: 150px;
+            margin-left: auto; 
+            margin-right: auto;
+        }
+
+        .custom-card-body {
+            width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            background-color: #7b9d7f; 
+            border-radius: 10px; 
+        }
+
+        .custom-card-body2 {
+            width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 150px;
+        }
 }
 
 body.theme-dark {
@@ -290,6 +315,18 @@ body.theme-dark {
         .col-md-6{
             background-color: #303B30;
         }
+        .post-card {
+            color: #f7f7f7;
+        }
+
+        #container{
+            color: #e5a9c5;
+            width: 900px; 
+            margin-top: 150px;
+            margin-left: auto; 
+            margin-right: auto;
+        }
+
 }
 
 @media (prefers-color-scheme: dark) {

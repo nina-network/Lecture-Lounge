@@ -41,9 +41,11 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/"><strong>Lecture Lounge</strong></a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/createroom">Create a Room</a>
-                </li>
+                    {% if session['user'] and session['user']['user_role'] == 'TA' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/createroom">Create a Room</a>
+                    </li>
+                    {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="/search">Search for a Room</a>
                 </li>
@@ -71,18 +73,18 @@
         {% if not session['user'] %}
         <form class="form-inline">
             <div class="container">
-                <a class="btn" href="/signup">Sign Up</a>
+                <a class="btn" style="color: #294426;" href="/signup">Sign Up</a>
             </div>
         </form>
         <form class="form-inline">
             <div class="container">
-                <a class="btn" href="/login">Login</a>
+                <a class="btn" style="color: #294426;" href="/login">Login</a>
             </div>
         </form>
         {% else %}
         <form class="form-inline">
             <div class="container">
-                <a class="btn" href="/logout">Logout</a>
+                <a class="btn" style="color: #294426;" href="/logout">Logout</a>
             </div>
         </form>
         {% endif %}      
