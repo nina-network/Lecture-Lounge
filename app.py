@@ -365,5 +365,20 @@ def search_page():
 
 @app.route('/delete-post/<string:title>', methods=['POST'])
 def delete_post(title):
-    post_repository.delete_post_by_title(title)
-    return jsonify({'success': True})
+    if 'user' not in session:
+        return jsonify({'success': False, 'error': 'User not logged in'})
+
+    user_id = session['user'].get('user_id')
+
+    post = post_repository.get_post_by_title(title)
+    if not post:
+        return jsonify({'success': False, 'error': 'Post not found'})
+    if post['user_id'] != user_id:
+        return jsonify({'success': False, 'error': 'Unauthorized: You can only delete your own posts'})
+
+    success = post_repository.delete_post_by_title(title)
+
+    if success:
+        return jsonify({'success': True})
+    else:
+        return jsonify({'success': False, 'error': 'Failed to delete post'})
