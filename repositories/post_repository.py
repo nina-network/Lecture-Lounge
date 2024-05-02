@@ -9,7 +9,24 @@ def get_all_posts():
         with conn.cursor(row_factory=dict_row) as cursor:
             cursor.execute('SELECT * FROM posts;')
             return cursor.fetchall()
-        
+
+def get_post_by_title(title):
+    pool = get_pool()
+    with pool.connection() as conn: 
+        with conn.cursor(row_factory=dict_row) as cursor:
+            cursor.execute('''
+                            SELECT 
+                                title,
+                                content,
+                                user_id,
+                                course_id
+                            FROM
+                                posts
+                            WHERE
+                                title = %s
+                            ''', [title])
+            return cursor.fetchone()
+
 def get_post_by_course_id(course_id):
     pool = get_pool()
     with pool.connection() as conn:

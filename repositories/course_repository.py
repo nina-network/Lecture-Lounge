@@ -71,3 +71,16 @@ def get_course_name_by_id(course_id):
                         ''', [course_id])
             course_name = cur.fetchone()
             return course_name
+
+def get_course_name(course_name):
+    pool = get_pool()
+    with pool.connection() as conn:
+        with conn.cursor() as cur: 
+            cur.execute('''
+                        SELECT 
+                            course_name
+                        FROM 
+                            courses
+                        ''')
+            course_name = cur.fetchone()
+            return course_name
