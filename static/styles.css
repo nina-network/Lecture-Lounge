@@ -86,7 +86,11 @@ body {
         }
 
         .card-body{
-            color: #294426;
+            color: #303B30;
+        }
+
+        .col-md-6{
+            background-color: #f7f7f7;
         }
 
         .btn {
@@ -116,14 +120,20 @@ body {
             background-color: #7b9d7f;
         }
 
+        .basegreen{
+            background-color: #7b9d7f;
+        }
+
         .username-big{
             margin-top: 10px;
             font-size: 40px;
             color: #294426;
+            background-color: #7b9d7f;
         }
 
         #no-post-msg{
             color: #294426;
+            background-color: #7b9d7f;
         }
 
         #prof-nav{
@@ -141,6 +151,27 @@ body {
             text-align: center;
             color:#7b9d7f
         }
+
+        .box {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #7b9d7f;
+            border-radius: 8px;
+        }
+
+        footer {
+            background-color: #7b9d7f;
+            color: #294426;
+            padding: 10px;
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: auto;
+        }
+
+        .row{
+            background-color: #7b9d7f;
+        }
         
 }
 
@@ -157,6 +188,10 @@ body.theme-dark {
         text-decoration: none;
         color: #e5a9c5;
         cursor: pointer;
+    }
+
+    #basegreen{
+        background-color: #303B30;
     }
 
     #board{
@@ -178,7 +213,7 @@ body.theme-dark {
         color: #f7f7f7;
       }
 
-      a {
+      h1, a {
         text-decoration: none;
         color: #f7f7f7;
       }
@@ -201,6 +236,7 @@ body.theme-dark {
             margin-top: 10px;
             font-size: 40px;
             color: #f7f7f7;
+            background-color: #294426;
         }
 
         .row{
@@ -221,6 +257,7 @@ body.theme-dark {
 
         #no-post-msg{
             color: #f7f7f7;
+            background-color: #294426;
         }
 
         #prof-nav{
@@ -232,6 +269,26 @@ body.theme-dark {
         #contact-ta{
             text-align: center;
             color:#f7f7f7
+        }
+
+        .box {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #294426;
+            border-radius: 8px;
+        }
+
+        footer {
+            background-color: #294426;
+            color: #f7f7f7;
+            padding: 10px;
+            text-align: center;
+            font-size: 1.2em;
+            margin-top: auto;
+        }
+        .col-md-6{
+            background-color: #303B30;
         }
 }
 
@@ -498,11 +555,3 @@ ul {
     height: 50px;
 }
 
-footer {
-    background-color: #7b9d7f;
-    color: #294426;
-    padding: 10px;
-    text-align: center;
-    font-size: 1.2em;
-    margin-top: auto;
-}

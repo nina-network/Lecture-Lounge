@@ -1,7 +1,7 @@
 import os, re
 from flask import Flask, render_template, session, url_for, request, redirect, abort
 from authlib.integrations.flask_client import OAuth
-from repositories import course_repository, post_repository
+from repositories import course_repository, post_repository, user_courses_repository
 from random import randint
 from dotenv import load_dotenv
 from flask_bcrypt import Bcrypt
@@ -332,18 +332,53 @@ def create_post():
 @app.get('/contact-ta')
 def contact_ta():
     try:
-        users = user_repository.get_all_users();
+        users = user_repository.get_all_users()
     except:
         # render error page here
-        return "<h1>Error Occurred: No users at this time!</h1>" # temporary error
+        return "<h1>Error Occurred: No TAs at this time!</h1>" # temporary error
+    user_courses = user_courses_repository.get_all_user_courses()
+    courses = course_repository.get_all_courses()
     ta_users = {}
     for user in users:
-        if user['user_role'] == 'TA':
-            full_name = user['first_name'] + ' ' + user['last_name']
-            ta_users[user['email']] = full_name
-            sorted(ta_users.items())
-
+        for course_id in user_courses:
+            for course in courses:
+                if user['user_role'] == 'TA':
+                    full_name = user['first_name'] + ' ' + user['last_name']
+                    ta_users[user['email']] = full_name
+        
     return render_template('contact_ta.html', ta_users = ta_users)
+
+@app.get('/course-ta/<room_id>')
+def course_ta(room_id):
+    try:
+        users = user_repository.get_all_users();
+    
+    except:
+        return "<h1> Error Occured: No TAs for this course :( </h1>"
+    
+    room = course_repository.get_course_by_id(room_id)
+    if not room:
+        abort(400)
+
+    ta_users_id = {}
+
+    for user in users:
+        if user['user_role'] == 'TA':
+            user_id = user['user_id']
+            email = user['email']
+            full_name = full_name = user['first_name'] + ' ' + user['last_name']
+
+            info = full_name, email
+
+            ta_users_id[user_id] = info
+            sorted(ta_users_id.values())        
+
+            # for course in courses:
+            #     if course['course_id'] in users_course and user_id in users_course:
+                   
+
+    
+    return render_template('course_ta.html', ta_users_id = ta_users_id, room_id=int(room_id), room=room) 
 
 @app.route('/search', methods=['GET', 'POST'])
 def search_page():

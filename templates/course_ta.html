@@ -1,0 +1,31 @@
+{% extends '_layout.html' %}
+{% block body %}
+
+
+<br><center>
+<h1> TA(s) for {{ room['course_name'] }} . . . </h1><br>
+
+    
+
+        <ul>
+
+            {% for course_id, TA in ta_users_id.items() %}
+
+                {% if course_id == room_id %}
+
+                    <li>
+                        <h5><strong>{{ TA[0] }}:</strong> <a href="mailto:{{TA[1]}}">{{TA[1]}}</a></h5>
+                    </li>
+
+                {% endif %}
+
+            {% endfor %}
+
+        </ul>
+    {% if room_id not in ta_users_id %}
+        <h3> No TAs at the moment :( </h3>
+    {% endif %}
+
+</center>
+
+{% endblock %}

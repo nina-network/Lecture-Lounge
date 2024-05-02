@@ -3,10 +3,9 @@
 {% block body %}
 <div id="contact-ta">
 <br><h2>Get to know the TAs!</h2><br>
-
 {% for email, name in ta_users.items() %}
     <ul>
-        <label><strong>{{ name }}:</strong> <a href="mailto:{{email}}">{{email}}</a></label>
+        <label><strong>{{ name }} :</strong> <a href="mailto:{{email}}">{{email}}</a></label>
     </ul>
 
 {% endfor %}
