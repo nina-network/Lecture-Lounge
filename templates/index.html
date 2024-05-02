@@ -1,19 +1,22 @@
 {% extends '_layout.html' %}
 
 {% block body %}
+<div id="room-container"></div>
 {% for course in courses %}
-<div id="room" class="shadow m-5 p-5">
-    {% if session['user'] %}
-    <a href="/room/{{ course }}"><h3> {{ courses[course] }} </h3></a>
-    {% else %}
-    <a href="/login"><h3>{{ courses[course] }}</h3></a>
-    {% endif %}
-    <ul>
-    {% for post in posts[course] %}
-        <li class="border-1 p-2">{{ post['title'] }}</li> <!-- make into a hyperlink to link to the post -->
-    {% endfor %}
-    </ul>
-</div>
-{% endfor %}
 
+    <div id="room" class="shadow m-5 p-5">
+        {% if session['user'] %}
+        <a href="/room/{{ course }}"><h3> {{ courses[course] }} </h3></a>
+        {% else %}
+        <a href="/login"><h3>{{ courses[course] }}</h3></a>
+        {% endif %}
+        <ul>
+        {% for post in posts[course] %}
+            <li class="border-1 p-2 post-card">{{ post['title'] }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endfor %}
+</div>
+{% include '_footer.html' %}
 {% endblock %}
