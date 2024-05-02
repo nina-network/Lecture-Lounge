@@ -167,6 +167,7 @@ body {
             margin-right: auto;
             margin-top: 150px;
         }
+
 }
 
 body.theme-dark {
@@ -269,7 +270,10 @@ body.theme-dark {
             margin-left: auto; 
             margin-right: auto;
         }
-
+        
+        #course-ta {
+            color: white;
+        }
 }
 
 @media (prefers-color-scheme: dark) {

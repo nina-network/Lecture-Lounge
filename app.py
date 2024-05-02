@@ -360,6 +360,33 @@ def contact_ta():
 
     return render_template('contact_ta.html', ta_users = ta_users)
 
+@app.get('/course-ta/<room_id>')
+def course_ta(room_id):
+    try:
+        users = user_repository.get_all_users();
+    
+    except:
+        return "<h1> Error Occured: No TAs for this course :( </h1>"
+    
+    room = course_repository.get_course_by_id(room_id)
+    if not room:
+        abort(400)
+
+    ta_users_id = {}
+
+    for user in users:
+        if user['user_role'] == 'TA':
+            user_id = user['user_id']
+            email = user['email']
+            full_name = full_name = user['first_name'] + ' ' + user['last_name']
+
+            info = full_name, email
+
+            ta_users_id[user_id] = info
+            sorted(ta_users_id.values())        
+
+    return render_template('course_ta.html', ta_users_id = ta_users_id, room_id=int(room_id), room=room) 
+
 @app.route('/search', methods=['GET', 'POST'])
 def search_page():
     message = None
