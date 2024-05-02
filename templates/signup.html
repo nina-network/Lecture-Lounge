@@ -1,50 +1,49 @@
 {% extends "_layout.html" %}
 
 {% block body %}
-<div class="row justify-content-center mt-5">
-    <div class="col-md-6">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title text-center">Sign Up</h5>
-                {% if error %}
-                <p class="text-danger">{{ error }}</p>
-                {% endif %}
-                <form action="/signup" method="post">
-                    <div class="mb-3">
-                        <label for="first_name" class="form-label">First Name</label>
-                        <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" value="{{ request.form.get('first_name', '') }}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="last_name" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" value="{{ request.form.get('last_name', '') }}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{ request.form.get('email', '') }}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="role" class="form-label">Role</label>
-                        <select class="form-select" id="role" name="role" aria-label="Select Role">
-                            <option selected disabled>Select Role</option>
-                            <option value="ta">TA</option>
-                            <option value="student">Student</option>
-                        </select>
-                    </div>                                              
-                    <div class="mb-3">
-                        <label for="username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="username" name="username" placeholder="Username" value="{{ request.form.get('username', '') }}">
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-                    </div>
-                    <div class="mb-3">
-                        <label for="confirm_password" class="form-label">Confirm Password</label>
-                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Re-enter password">
-                    </div>
-                    <button type="submit" class="btn">Sign Up</button>
-                </form>
-            </div>
+<br>
+<div class="container">
+    <div class="card custom-card-body"> <!-- Apply custom card styles directly -->
+        <div class="card-body">
+            <h3 class="card-title text-center">Sign Up</h3>
+            {% if error %}
+            <p class="text-danger">{{ error }}</p>
+            {% endif %}
+            <form action="/signup" method="post">
+                <div class="mb-3">
+                    <label for="first_name" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="first_name" name="first_name" placeholder="First Name" value="{{ request.form.get('first_name', '') }}">
+                </div>
+                <div class="mb-3">
+                    <label for="last_name" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Last Name" value="{{ request.form.get('last_name', '') }}">
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{ request.form.get('email', '') }}">
+                </div>
+                <div class="mb-3">
+                    <label for="role" class="form-label">Role</label>
+                    <select class="form-select" id="role" name="role" aria-label="Select Role">
+                        <option selected disabled>Select Role</option>
+                        <option value="ta">TA</option>
+                        <option value="student">Student</option>
+                    </select>
+                </div>                                              
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" value="{{ request.form.get('username', '') }}">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                </div>
+                <div class="mb-3">
+                    <label for="confirm_password" class="form-label">Confirm Password</label>
+                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Re-enter password">
+                </div>
+                <button type="submit" class="btn btn-primary" style="color: #294426;">Sign Up</button> <!-- Use btn-primary for Bootstrap primary button color -->
+            </form>
         </div>
     </div>
 </div>
