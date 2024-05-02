@@ -299,6 +299,11 @@ def create_rooms():
 
 @app.get('/createroom')
 def create_room():
+    if 'user' not in session:
+        return redirect(url_for('login')) 
+    if session['user']['user_role'] != 'TA':
+        return "You are not authorized to access this page. Only TA's can create rooms. <a href='/'>Go back</a>"  # Display error page for unauthorized access
+
     return render_template('create_room.html')
 
 @app.post('/create-post')

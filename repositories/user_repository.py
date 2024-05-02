@@ -89,6 +89,7 @@ def get_user_by_username(username: str) -> dict[str, Any] | None:
                         SELECT
                             user_id,
                             username,
+                            user_role,
                             password AS hashed_password
                         FROM
                             users
