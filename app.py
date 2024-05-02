@@ -83,9 +83,12 @@ def login():
         abort(400)
     user = user_repository.get_user_by_username(username)
     if user is None:
-        abort(401)
+        error = "That user does not exist."
+        return render_template('login.html', error=error)
     if not bcrypt.check_password_hash(user['hashed_password'], password):
-        abort(401)
+        error = "Incorrect password, try again."
+        return render_template('login.html', error=error)
+
     session['user'] = user
     return redirect(url_for('index'))
 
@@ -156,11 +159,17 @@ def signup():
     first_name = request.form.get('first_name')
     last_name = request.form.get('last_name')
     email = request.form.get('email')
-    role = request.form.get('role').lower()
+    role = request.form.get('role')
     username = request.form.get('username')
     password = request.form.get('password')
     confirm_password = request.form.get('confirm_password')
-    
+
+    if role is None:
+        error = "Please select a valid role"
+        return render_template('signup.html', error=error)
+
+    if role == "ta":
+        role = role.upper()
     
     valid_roles = ['student', 'TA', 'admin']
     if role not in valid_roles:
@@ -186,9 +195,6 @@ def signup():
     if user_repository.get_user_by_username(username):
         error = "Username is already taken."
         return render_template('signup.html', error=error)
-    
-    if role == "ta":
-        role = role.upper()
 
     if password != confirm_password:
         error = "Passwords do not match."
