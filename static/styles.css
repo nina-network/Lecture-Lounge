@@ -23,6 +23,16 @@
     --dark-text-color: #303B30;
 }
 
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
 body {
     --background-color: #f7f7f7;
     --background-color-alt: #7b9d7f;
@@ -453,3 +463,46 @@ body.theme-dark {
     .container div {
         margin-bottom: 20px; /* Adjust the margin as needed */
     }
+
+#room-container {
+    margin: 1em!important;
+}
+
+#room {
+    margin: 2em 4em !important;
+    background-color: #7b9d7f;
+    color: #294426;
+    transition: transform 0.5s ease;
+    border-radius: 12px;
+}
+    
+#room:hover {
+    transform: scale(.97);
+}
+
+ul {
+    list-style: none;
+}
+
+.post-card {
+    border: 1px solid black;
+    margin: 1em 0;
+    background-color: #e5a9c5;
+    color: white;
+    border-radius: 12px;
+    font-size: 1.2em;
+}
+
+.logo {
+    width: 70px;
+    height: 50px;
+}
+
+footer {
+    background-color: #7b9d7f;
+    color: #294426;
+    padding: 10px;
+    text-align: center;
+    font-size: 1.2em;
+    margin-top: auto;
+}
