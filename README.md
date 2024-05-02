@@ -1,4 +1,6 @@
-# Lecture Lounge
+# Lecture Lounge 
+/static/images/lecture-lounge.png?raw=true
+
 
 ## ITSC-3155 Spring 2024
 
