@@ -24,12 +24,12 @@
                     </div>
                     <div class="mb-3">
                         <label for="role" class="form-label">Role</label>
-                        <select class="form-select" id="role" name="role" aria-label="Select Role">
+                        <select class="form-select" id="role" name="role" aria-label="Select Role" required>
                             <option selected disabled>Select Role</option>
                             <option value="ta">TA</option>
                             <option value="student">Student</option>
                         </select>
-                    </div>                                              
+                    </div>                                                        
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
                         <input type="text" class="form-control" id="username" name="username" placeholder="Username" value="{{ request.form.get('username', '') }}">
